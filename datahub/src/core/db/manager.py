@@ -20,7 +20,7 @@ from inventory.models import App, Card, Collaborator, DataHubLegacyUser
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
-clone_file_path = "/home/ubuntu/workspace"
+clone_file_path = "/home/ubuntu/workspace/clone_file"
 
 
 ####add by beyhhhh

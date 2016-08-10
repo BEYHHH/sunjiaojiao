@@ -59,7 +59,7 @@ commal_url = "curl " + hearder + user_id_pass + api_url
 
 git_url = "http://" + gitlab_url + "/root/"
 
-clone_file_path = "/home/ubuntu/workspace"
+clone_file_path = "/home/ubuntu/workspace/clone_file"
 
 
 

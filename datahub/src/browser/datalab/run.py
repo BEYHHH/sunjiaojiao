@@ -18,8 +18,8 @@ import multiprocessing
 import time
 import pexpect
 
-target = "/home/ubuntu/sunjiaojiao/workspace"
-clone_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file"
+target = "/home/ubuntu/workspace/Push_exp"
+clone_path = "/home/ubuntu/workspace/clone_file"
 
 def run(username,clone_repo,commit_id,src):
     List = db_connect.get_poject_exp_list(username,clone_repo)

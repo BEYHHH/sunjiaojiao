@@ -8,8 +8,10 @@ import shutil
 from time import asctime
 import csv
 
-target = "/home/ubuntu/sunjiaojiao/workspace"
-clone_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file"
+target = "/home/ubuntu/workspace/Push_exp"
+clone_path = "/home/ubuntu/workspace/clone_file"
+hook_config_path = "/home/ubuntu/sandbox/config.json"
+
 
 def verifyUser(client, name):
     """
@@ -50,7 +52,7 @@ def __Push__(username,repo,data,branch,message = "push the code to run"):
             Code_list.append(a)
     
     try:
-        config = json.load(open("/home/ubuntu/sandbox/config.json"))
+        config = json.load(open(hook_config_path))
     except Exception as e:
         print e
         print "can't get the configs to connect the mongodb"
