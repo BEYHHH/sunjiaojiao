@@ -59,6 +59,9 @@ commal_url = "curl " + hearder + user_id_pass + api_url
 
 git_url = "http://" + gitlab_url + "/root/"
 
+clone_file_path = "/home/ubuntu/workspace"
+
+
 
 handler = DataHubHandler()
 core_processor = DataHub.Processor(handler)
@@ -201,7 +204,7 @@ def move_code_to_repo(request, repo_base, repo):
     clone_name = get_clone_name(username,repo)
     code_list =  request.POST.getlist('check_box_list')
     path = "/home/ubuntu/sunjiaojiao/code_public/"
-    target = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + clone_name + "/"
+    target = clone_file_path+ "/" + clone_name + "/"
     with DataHubManager(user=username, repo_base=repo_base) as manager:
             data_list = manager.repo_data_list(username,repo)
             
@@ -236,9 +239,9 @@ def move_code_to_repo(request, repo_base, repo):
 def move_data_to_repo(request, repo_base, repo):
     username = request.user.get_username()
     data_list = request.POST.getlist('check_box_list')
-    
+    clone_name = get_clone_name(username,repo)
     path = "/home/ubuntu/sunjiaojiao/data_set_public/json"
-    target = "/home/ubuntu/sunjiaojiao/datahub/clone_file/json/" + repo + ".json"
+    target = clone_file_path + "/" + clone_name + ".json"
     
     if os.path.isfile(target):
         f = open(target)
@@ -435,7 +438,7 @@ def add_to_the_repo(request,repo_base):
     Repo = request.POST.getlist('repo')
     repo = Repo[0]
     path = "/home/ubuntu/sunjiaojiao/data_set_public/"
-    target = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + repo + "/"
+    target = clone_file_path + "/" + repo + "/"
 
     if len(data_list) > 0:
         for a in data_list:
@@ -677,7 +680,6 @@ def repo_codes(request, repo_base, repo):
 def data_code_list_update(request,repo_base,repo):
     """
     list the codes and datas in the manage flord
-    
     """
     username = request.user.get_username()
     if repo_base.lower() == 'user':
@@ -852,7 +854,6 @@ def creat_github_repo(username,repo):
     to creat a repo in the gatlab
     and so we can clone it in the local
     """
-    shell = "curl --header  \"PRIVATE-TOKEN:1oji-cDx8Yi5yyPxFjzk\"  -u \"root:git123456\"  \"http://10.2.1.128:8888/api/v3/projects\"  -d \"name=" + repo +"\"" + "   -d \"public=true\""
     
     shell = "curl  " + hearder + user_id_pass + api_url+ "projects\"" + " -d \"name=" + repo +"\"" + "   -d \"public=true\""
     
@@ -884,7 +885,7 @@ def update_every(username,repo):
     
     
     clone_name = get_clone_name(username,repo)
-    target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + clone_name
+    target_path = clone_file_path + "/" + clone_name
     print "update the clone file every time"
     
     if os.path.isdir(target_path):
@@ -943,7 +944,7 @@ def reset_project_commit(request, repo_base,repo,short_id):
         if thread_list[clone_name] and thread_list[clone_name].is_alive():
             thread_list[clone_name].terminate()
     
-    target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + clone_name
+    target_path = clone_file_path + "/" + clone_name
     if os.path.isdir(target_path):
         try:
             os.chdir(target_path)
@@ -983,7 +984,7 @@ def get_branch_code(username,repo,commit_id,P_id):
         if thread_list[clone_name].is_alive():
             thread_list[clone_name].terminate()
     
-    target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + clone_name
+    target_path = clone_file_path + "/" + clone_name
     print "target_path"
     print target_path
     if os.path.isdir(target_path):
@@ -1022,15 +1023,13 @@ def commit_code_watch(request, repo_base,repo,branch_name):
     """
     username = request.user.get_username()
     clone_name = get_clone_name(username,repo)
-    target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + clone_name
+    target_path = clone_file_path + "/" + clone_name
     
     if os.path.isdir(target_path):
         os.chdir(target_path)
         ID = get_project_id(username,repo)
         
         c = pexpect.run("git status")
-        
-        Post_shell = "curl  --header \"PRIVATE-TOKEN:1oji-cDx8Yi5yyPxFjzk\"   -u \"root:git123456\" \"http://10.2.1.128:8888/api/v3/projects/" + str(ID) + "/repository/branches\""
         
         Post_shell = commal_url + "projects/" + str(ID) + "/repository/branches\""
         a = pexpect.run(Post_shell)
@@ -1065,7 +1064,7 @@ def code_branch_list(request, repo_base,repo):
     """
     username = request.user.get_username()
     clone_name = get_clone_name(username,repo)
-    target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + clone_name
+    target_path = clone_file_path + "/" + clone_name
     if thread_list.has_key(clone_name):
         print "the Key is exits"
         if thread_list[clone_name] and thread_list[clone_name].is_alive():
@@ -1107,7 +1106,6 @@ def get_project_id(username,repo):
     to get the id of a project in the datalab
     """
     clone_name = get_clone_name(username,repo)
-    shell ="curl --header  \"PRIVATE-TOKEN:1oji-cDx8Yi5yyPxFjzk\"  -u \"root:git123456\"  \"http://10.2.1.128:8888/api/v3/projects\""
     
     shell = commal_url + "projects\""
     print shell
@@ -1122,7 +1120,6 @@ def get_project_id(username,repo):
     
 def get_project(username,repo):
     clone_name = get_clone_name(username,repo)
-    shell ="curl --header  \"PRIVATE-TOKEN:1oji-cDx8Yi5yyPxFjzk\"  -u \"root:git123456\"  \"http://10.2.1.128:8888/api/v3/projects\""
     
     shell = commal_url + "projects\""
     print shell
@@ -1142,7 +1139,7 @@ def get_branch(username,repo):
     """
     clone_name = get_clone_name(username,repo)
     
-    target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + clone_name
+    target_path = clone_file_path + "/" + clone_name
     if thread_list.has_key(clone_name):
         print "the Key is exits"
         if thread_list[clone_name] and thread_list[clone_name].is_alive():
@@ -1191,7 +1188,6 @@ def get_commit_list(username,repo):
     
     ID = get_project_id(username,repo)
     print "the id is "
-    Post_shell = "curl  --header \"PRIVATE-TOKEN:1oji-cDx8Yi5yyPxFjzk\"   -u \"root:git123456\" \"http://10.2.1.128:8888/api/v3/projects/" + str(ID) + "/repository/commits\""
     
     Post_shell = commal_url + "projects/" + str(ID) + "/repository/commits\""
     a = pexpect.run(Post_shell)
@@ -1248,7 +1244,7 @@ def repo_create(request, repo_base):
         creat_github_repo(username,clone_name)
         clone_path = git_url+ clone_name +".git"
         print "creat Clone flord"
-        path = "/home/ubuntu/sunjiaojiao/datahub/clone_file"
+        path = clone_file_path
         if os.path.isdir(path):
             
             if os.path.isdir(path + "/" +clone_name):
@@ -1312,7 +1308,7 @@ def repo_delete(request, repo_base, repo):
     ### set the clone flord name
     clone_name = get_clone_name(username,repo)
     
-    path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/"
+    path = clone_file_path + "/"
     if os.path.isdir(path + clone_name):
         shutil.rmtree(path + clone_name)
     else:
@@ -1324,8 +1320,7 @@ def repo_delete(request, repo_base, repo):
     else:
         print "the path isn't ok!" + path
     
-    ID = get_project_id(username,repo)     
-    Post_shell = "curl  -X \"DELETE\" --header \"PRIVATE-TOKEN:1oji-cDx8Yi5yyPxFjzk\"   -u \"root:git123456\" \"http://10.2.1.128:8888/api/v3/projects/" + str(ID) + "\""
+    ID = get_project_id(username,repo)
     
     Post_shell ="curl  -X \"DELETE\" " + hearder + user_id_pass + api_url + "projects/" + str(ID) + "\""
     
@@ -1407,7 +1402,7 @@ def move_code_to_public(username,repo,code_list,data_list,commit_id):
     
     src_path = "/home/ubuntu/sunjiaojiao/code_public/public_code/"
     
-    path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" +clone_name +"/"
+    path = clone_file_path + "/" +clone_name +"/"
     
     if not os.path.isdir(src_path) or not os.path.isdir(json_path):
         return
@@ -1451,15 +1446,13 @@ def Push_process(target_path):
             
 def get_present_commit(username,repo):
     clone_name = get_clone_name(username,repo)
-    target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" +clone_name +"/"
+    target_path = clone_file_path + "/" +clone_name +"/"
     if os.path.isdir(target_path):
         os.chdir(target_path)
         
         ID = get_project_id(username,clone_name)
         
         c = pexpect.run("git status")
-        
-        Post_shell = "curl  --header \"PRIVATE-TOKEN:1oji-cDx8Yi5yyPxFjzk\"   -u \"root:git123456\" \"http://10.2.1.128:8888/api/v3/projects/" + str(ID) + "/repository/branches\""
         
         Post_shell = commal_url + "projects/" + str(ID) + "/repository/branches\""
         a = pexpect.run(Post_shell)

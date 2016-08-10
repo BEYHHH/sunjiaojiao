@@ -20,6 +20,9 @@ from inventory.models import App, Card, Collaborator, DataHubLegacyUser
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
+clone_file_path = "/home/ubuntu/workspace"
+
+
 ####add by beyhhhh
 def remove(path):
     for name in os.listdir(path):
@@ -588,7 +591,7 @@ class DataHubManager:
             self.username, self.repo_base, repo, 'write')
 
         file_path = user_data_path(self.repo_base, repo, file_name)
-        file_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + repo + "/" + file_name
+        file_path = clone_file_path + "/" + repo + "/" + file_name
         os.remove(file_path)
 
     def get_file(self, repo, file_name):
@@ -615,7 +618,7 @@ class DataHubManager:
     
     def move_code_to_public(self,username,repo,code_list,data_list):
         clone_name = self.get_clone_name(username,repo)
-        path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" +clone_name +"/"
+        path = clone_file_path + "/" +clone_name +"/"
         src_path = "/home/ubuntu/sunjiaojiao/code_public/src/"
         json_path = "/home/ubuntu/sunjiaojiao/code_public/json/"
         for code in code_list:
@@ -631,7 +634,7 @@ class DataHubManager:
         """
         ###even now still need some changes for the data version
         clone_name = self.get_clone_name(username,repo)
-        target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/json/" + clone_name + ".json"
+        target_path = clone_file_path + "/" + clone_name + ".json"
         data_list = []
         if os.path.isfile(target_path):
             f = open(target_path)
@@ -648,7 +651,7 @@ class DataHubManager:
         list the codes that in the repo
         """
         clone_name = self.get_clone_name(username,repo)
-        target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" +clone_name +"/"
+        target_path = clone_file_path + "/" +clone_name +"/"
         code_list = []
         
         if os.path.isdir(target_path):
@@ -665,7 +668,7 @@ class DataHubManager:
     
     def repo_conf_list(self,username,repo):
         clone_name = self.get_clone_name(username,repo)
-        target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" +clone_name +"/"
+        target_path = clone_file_path + "/" +clone_name +"/"
         conf_list = []
         
         if os.path.isdir(target_path):
@@ -684,7 +687,7 @@ class DataHubManager:
         ###set the name in gitlab
         clone_name = self.get_clone_name(username,repo)
         
-        clone_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + clone_name +"/"
+        clone_path = clone_file_path + "/" + clone_name +"/"
         if os.path.isdir(clone_path):
             os.chdir(clone_path)
             
@@ -709,12 +712,19 @@ class DataHubManager:
             if index == 2:
                 print "there is something wrong"
                 return "there is something wrong"
+        else:
+            return "there is something wrong"
+
+        return
     
     
+    
+    ####those code was used in the second changes and was useless
+
+    """    
     def updata_user_repo(self,repo,file_list):
-        """
-        update the code and the data_set in the test flord to the repo flord
-        """
+        #update the code and the data_set in the test flord to the repo flord
+
         
         path = "/home/ubuntu/sunjiaojiao/datahub"
         test_flord_path = path + "/user_data/"+self.username+"/"
@@ -734,9 +744,7 @@ class DataHubManager:
     
     def move_files(self,repo,files,Cleaning = True):
         
-        """
-        to get the user files, which the user coding in
-        """
+        #to get the user files, which the user coding in
         path = "/home/ubuntu/sunjiaojiao/datahub"
         print path
         base_path = path+"/user_data/"+self.username+"/"
@@ -756,9 +764,7 @@ class DataHubManager:
         return "/user_data/"+self.username+"/"
     
     def move_the_file(self,repo,file_name,target_path):
-        """
-        Move the file(file_name) to target 
-        """
+        #Move the file(file_name) to target 
         path = user_data_path(self.repo_base, repo, file_name)
         print "the path is " + path
         print "  the now path is " + os.getcwd()
@@ -779,9 +785,7 @@ class DataHubManager:
         
     
     def get_Data_list(self):
-        """
-        get the Data_set list in user test flord
-        """
+        #get the Data_set list in user test flord
         path = "/home/ubuntu/sunjiaojiao/datahub" + "/user_data/"+self.username+"/"
         Data_list = []
         print "the path is " + path
@@ -792,9 +796,7 @@ class DataHubManager:
         return Data_list
     
     def get_Code_list(self):
-        """
-        get the code list in user test flord
-        """
+        #get the code list in user test flord
         path = "/home/ubuntu/sunjiaojiao/datahub" + "/user_data/"+self.username+"/"
         print "the path is " + path
         Code_list = []
@@ -808,21 +810,7 @@ class DataHubManager:
         print "code list is " 
         print Code_list
         return Code_list
-    
-    #<<add by beyhhhh
-    
-     #add by strongman>>
-    def list_selected_dataset(self,repo):
-        base_path = "/home/ubuntu/sunjiaojiao/datahub/user_data/"+self.username
-        print "base_path:"+ base_path
-        uploaded_files = os.listdir(base_path)
-        dataset = []
-        for a in uploaded_files:
-            if a[a.rfind('.'):] == ".csv":
-                dataset.append(a)
-        return dataset
-    
-    #<<add by strongman
+    """
 
     def export_table(self, repo, table, file_format='CSV',
                      delimiter=',', header=True):
