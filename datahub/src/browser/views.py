@@ -106,7 +106,7 @@ def service_core_binary(request):
 
         except Exception as e:
             resp = HttpResponse(
-                json.dumps({'error': str(e)}),
+                json.dumps({'error': str(e)}, indent=2),
                 content_type="application/json")
     try:
         resp['Access-Control-Allow-Origin'] = request.META['HTTP_ORIGIN']
@@ -138,7 +138,7 @@ def service_account_binary(request):
 
         except Exception as e:
             resp = HttpResponse(
-                json.dumps({'error': str(e)}),
+                json.dumps({'error': str(e)}, indent=2),
                 content_type="application/json")
 
     try:
@@ -172,7 +172,7 @@ def service_core_json(request):
 
         except Exception as e:
             resp = HttpResponse(
-                json.dumps({'error': str(e)}),
+                json.dumps({'error': str(e)}, indent=2),
                 content_type="application/json")
 
     try:
@@ -225,7 +225,7 @@ def move_code_to_repo(request, repo_base, repo):
                     if C:
                         dic["data_set"].append(data_set_in_repo)
                 with open(path +"json/"+ a +".json", "w") as f:
-                    f.write(json.dumps(dic))
+                    f.write(json.dumps(dic, indent=2))
             
             if os.path.isfile(path + "public_code/" + a):
                 print "move the public code to target"
@@ -252,7 +252,7 @@ def move_data_to_repo(request, repo_base, repo):
                 data_dic = json.load(f)
                 repo_dic["date_set"][data_dic["id"]] = data_dic 
         with open(target,"w") as w:
-            w.write(json.dumps(repo_dic))
+            w.write(json.dumps(repo_dic, indent=2))
             
     return HttpResponseRedirect("/browse/" + username + "/" + repo + "/")
     
@@ -1211,7 +1211,7 @@ def Make_data_set_public(request, repo_base, repo, file_id ):
         dic["public"] = True
         print dic
         with open(target_path, "w") as f:
-            f.write(json.dumps(dic))
+            f.write(json.dumps(dic, indent=2))
      
     return HttpResponseRedirect('/browse/'+ username + '/' + repo)   
     
@@ -1258,7 +1258,7 @@ def repo_create(request, repo_base):
             repo_dict["time"] = time.strftime("%Y_%m_%d_%H_%M_%S",time.localtime(time.time()))
             
             with open(path +"/"+ clone_name +".json", "w") as f:
-                    f.write(json.dumps(repo_dict))
+                    f.write(json.dumps(repo_dict, indent=2))
                     
             print "clean the flord"
             os.chdir(path)
@@ -1414,7 +1414,7 @@ def move_code_to_public(username,repo,code_list,data_list,commit_id):
             dic = {"name":code,"repo":repo,"username" : username,"data_set":data_list, "commit_id":commit_id,"commit_name":commit_id + "_" + code}
             
             with open(json_path + commit_id + "_" + code + '.json', 'w') as f:
-                    f.write(json.dumps(dic))
+                    f.write(json.dumps(dic, indent=2))
     Push_process(src_path)
     
     
@@ -2080,7 +2080,7 @@ def app_allow_access(request, app_id, repo_name):
     except Exception as e:
         return HttpResponse(
             json.dumps(
-                {'error': str(e)}),
+                {'error': str(e)}, indent=2),
             content_type="application/json")
 
 
@@ -2135,7 +2135,7 @@ def security_policy_delete(request, repo_base, repo, table, policy_id):
     except Exception as e:
         return HttpResponse(
             json.dumps(
-                {'error': str(e)}),
+                {'error': str(e)}, indent=2),
             content_type="application/json")
     return HttpResponseRedirect(
         reverse('browse-security_policies', args=(repo_base, repo, table)))
@@ -2164,7 +2164,7 @@ def security_policy_create(request, repo_base, repo, table):
     except Exception as e:
         return HttpResponse(
             json.dumps(
-                {'error': str(e)}),
+                {'error': str(e)}, indent=2),
             content_type="application/json")
 
     return HttpResponseRedirect(
@@ -2187,7 +2187,7 @@ def security_policy_edit(request, repo_base, repo, table, policyid):
     except Exception as e:
         return HttpResponse(
             json.dumps(
-                {'error': str(e)}),
+                {'error': str(e)}, indent=2),
             content_type="application/json")
 
     return HttpResponseRedirect(
@@ -2208,7 +2208,7 @@ def security_policy_query(request, repo_base, repo, table):
     except Exception as e:
         return HttpResponse(
             json.dumps(
-                {'error': str(e)}),
+                {'error': str(e)}, indent=2),
             content_type="application/json")
 
     return HttpResponseRedirect(
