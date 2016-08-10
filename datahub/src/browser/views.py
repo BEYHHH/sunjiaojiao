@@ -241,7 +241,7 @@ def move_data_to_repo(request, repo_base, repo):
     data_list = request.POST.getlist('check_box_list')
     clone_name = get_clone_name(username,repo)
     path = "/home/ubuntu/sunjiaojiao/data_set_public/json"
-    target = clone_file_path + "/" + clone_name + ".json"
+    target = clone_file_path + "/" + clone_name + "/" + clone_name + ".json"
     
     if os.path.isfile(target):
         f = open(target)
@@ -1315,8 +1315,8 @@ def repo_delete(request, repo_base, repo):
         print "the path isn't ok!" + path
         
         
-    if os.path.isdir(path +  clone_name + ".json"):
-        shutil.rmtree(path + clone_name + ".json")
+    if os.path.isdir(path + clone_name + "/" + clone_name + ".json"):
+        shutil.rmtree(path + clone_name + "/" + clone_name + ".json")
     else:
         print "the path isn't ok!" + path
     
