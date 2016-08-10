@@ -1,0 +1,107 @@
+<!--beyhhhh code-->
+{% extends "layout.html" %}
+{% block content %}
+
+
+<!--add by beyhhhh-->
+<form  action = "/browse/{{login}}/add_to_the_repo/creat" method="POST">
+    {% csrf_token %}
+<!--add by beyhhhh-->  
+    
+
+ <div class="container">
+ {%if data_list and data_list|length > 0%}
+ {%for kind in data_list%}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="lead">
+      {{kind.name}}
+    </span>
+  </div>
+
+  {% if kind.List and kind.List|length > 0 %}
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>            
+          {% for data in kind.List %}
+          <tr>
+             <td>
+                  <input type="checkbox" name= "check_box_list"  value = "{{data.id}}"/>
+                 <a>{{data.name}}</a>
+            </td>
+              
+              <td>
+                  {%if data.commit_id%} 
+                      {{data.commit_id}}
+                  {%else%}
+                      public data set
+                  {%endif%}
+              </td>
+              
+              <td>
+                  {%if data.user%}
+                      data.user
+                  {%else%}
+                      no creater
+                  {%endif%}
+              </td>
+            <td class="text-right">
+                 
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+  {% else %}
+    <p class="bg-warning">No data set in {{kind}}</p>
+  {% endif %} 
+ </div> 
+  {% endfor %}
+
+{% else %}
+    <p class="bg-warning">There is no data set</p>
+{% endif %}
+ </div>
+
+    
+    
+{%if login %}
+<div class="container">
+ {%if repos|length > 0%}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="lead">
+      User Projects
+    </span>
+  </div>
+
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>              
+          
+          <tr>
+              {% for project in repos %}
+             <td>
+                  <input type="radio" name= "repo"  value = "{{project}}"/>
+                 <a>{{project}}</a>
+             </td>
+              {% endfor %}
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    
+    <input class="btn btn-primary btn-xsm modal-show-dialog" type ="submit"  style = "float:right;margin-right:0;" value="Add to the repos"> 
+  {% else %}
+    <p class="bg-warning">No project now in {{data_class.name}}</p>
+  
+ </div> 
+  {% endif %} 
+       
+</div>
+    
+{%endif%}
+{% endblock %}

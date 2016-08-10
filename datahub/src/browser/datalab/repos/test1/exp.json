@@ -1,0 +1,1 @@
+{"as": "tt", "data_set": "test.csv", "src": "gendermodel.py", "type": "python", "param": {"max_features": 5000, "analyzer": "word", "n_estimators": 100}, "out": "gendermodel.csv", "feature": "gender"}

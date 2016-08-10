@@ -1,0 +1,1 @@
+{"as": "tt", "data_set": "000402.csv", "src": "test.py", "type": "python", "param": {"algorithm": "Moving Average"}, "out": "output.csv", "foo": 9}

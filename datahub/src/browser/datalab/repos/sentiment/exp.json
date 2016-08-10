@@ -1,0 +1,1 @@
+{"a": "a", "data_set": "testData.csv", "src": "BagOfWords.py", "type": "python", "param": {"max_features": 6000, "analyzer": "word", "n_estimators": 100}, "out": "output.csv", "foo": 22}

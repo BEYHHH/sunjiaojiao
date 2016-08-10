@@ -1,0 +1,94 @@
+{% extends "repo-browse-template.html" %}
+{% block tabs %}
+<ul class="nav nav-tabs" role="tablist">
+  <li><a href="/browse/{{repo_base}}/{{repo}}/tables" role="tab">Tables</a></li>
+  <li><a href="/browse/{{repo_base}}/{{repo}}/files" role="tab">Data_sets</a></li>
+  <li><a href="/browse/{{repo_base}}/{{repo}}/codes" role="tab">Codes</a></li>
+  <li class="active"><a href="/browse/{{repo_base}}/{{repo}}/Push" role="tab">Push_Code</a></li>
+  <li><a href="/browse/{{repo_base}}/{{repo}}/cards" role="tab">Cards</a></li>
+  <li><a href="/browse/{{repo_base}}/{{repo}}/record" role="tab">Records</a></li>
+</ul>
+{% endblock %}
+{% block tab-content %}
+
+<!--add by beyhhhh-->
+<form action="/browse/{{login}}/{{repo}}/upload_github" method="POST">
+    {% csrf_token %}
+<!--add by beyhhhh-->    
+    
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="lead">
+      Dataset &nbsp;
+    </span>
+  </div>
+
+  {% if Data_list and Data_list|length > 0 %}
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>            
+          {% for data in Data_list %}
+          <tr>
+              <td>
+                  <input type="checkbox" name= "check_box_list" value = "{{data}}"/>
+              </td>
+            <td>
+              <a href="/download/{{repo_base}}/{{repo}}/file/{{data}}">{{data}}</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+  {% else %}
+    <p class="bg-warning">No file in <strong>{{repo_base}}/{{repo}}</strong></p>
+  {% endif %} 
+    
+   
+  </div>
+    
+ 
+    <div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="lead">
+      Code &nbsp;
+    </span>
+  </div>
+
+  {% if Code_list and Code_list|length > 0 %}
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>            
+          {% for code in Code_list %}
+          <tr>
+              <td>
+                  <input type="checkbox" name= "check_box_list" value = "{{code}}"/>
+              </td>
+            <td>
+              <a href="/download/{{repo_base}}/{{repo}}/file/{{code}}">{{code}}</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+  {% else %}
+    <p class="bg-warning">No file in <strong>{{repo_base}}/{{repo}}</strong></p>
+  {% endif %} 
+    
+   
+  </div>
+<!--add by beyhhhh--->
+    <input class="btn btn-primary btn-xsm" type="submit" value="Push Codes">
+  </form>
+<!--add by beyhhhh--->
+
+{% endblock %}
+
+
+
+
+

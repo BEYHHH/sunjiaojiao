@@ -1,0 +1,99 @@
+<!-- HTML file containing the overall DataQ interface -->
+
+<!-- Create a translucent black background -->
+<div class="dq-black-background"></div>
+
+<!-- The DataQ container -->
+<div class="dataq container-fluid">
+
+  <h4>
+    DataQ allows you to write SQL queries using a simple checklist-like user interface.
+  </h4>
+
+  <div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading dq-panel" data-toggle="collapse" href="#collapseOne">
+      <h4 class="panel-title">
+        Select Columns
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in">
+      <div class="panel-body">
+        
+        <button class="btn btn-primary dq-btn-add-table">Add Table</button>
+        
+        <!-- The table section HTML goes inside this div -->
+        <div class="dq-table-section-container">
+          <div class="dq-selected-tables"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading dq-panel" data-toggle="collapse" href="#collapseTwo">
+      <h4 class="panel-title">
+        Filter Rows
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse in">
+      <div class="panel-body">
+        
+      <!-- Button to add a new filter -->
+      <button class="btn btn-primary dq-btn-add-filter">Add Filter</button>
+
+      <!-- The filter section HTML goes inside this div -->
+      <div class="dq-selected-filters">
+          <ul class="dq-filter-list"></ul>
+      </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading dq-panel" data-toggle="collapse" href="#collapseThree">
+      <h4 class="panel-title">
+        Group Columns
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse in">
+      <div class="panel-body">
+        
+        <!-- Button for adding groupings -->
+        <button class="btn btn-primary dq-btn-edit-grouping">Edit Grouping</button>
+
+        <!-- The grouping is displayed this header -->
+        <div class="dq-grouping-section-container">
+          <h4 class="dq-grouping-text">No Groupings...</h4>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading dq-panel" data-toggle="collapse" href="#collapseFour">
+      <h4 class="panel-title">
+        Sort Data
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse in">
+      <div class="panel-body">
+        
+        <!-- Button to add a sorting -->
+        <button class="btn btn-primary dq-btn-edit-sorting">Edit Sorting</button>
+
+        <!-- The sorting is displayed in this header -->
+        <div class="dq-sorting-section-container">
+          <h4 class="dq-sorting-text">No Sorting...</h4>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Button to run query -->
+  <div class="row">
+    <button class="btn btn-primary col-xs-3 dq-btn-run-query col-xs-offset-3">Query</button>
+    <button class="btn btn-default col-xs-3 dq-btn-cancel-query">Cancel</button>
+  </div>
+</div>

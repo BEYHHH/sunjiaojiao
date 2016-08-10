@@ -1,0 +1,80 @@
+{% extends "repo-browse-template.html" %}
+{% block tabs %}
+<div>
+        <!--add by beyhhhh-->
+        <form action="/browse/{{repo_base}}/{{repo}}/update_file_flord_codes_data" method="POST">{% csrf_token %}
+        <!--add by beyhhhh-->
+
+
+        <div class="panel panel-default" >
+            <div class="panel-heading">
+                 <span class="lead">
+                    Dataset &nbsp;
+                 </span>
+            </div>
+
+            {% if Data_list and Data_list|length > 0 %}
+                <div class="table-responsive">
+                     <table class="table">
+                          <tbody>
+                           {% for data in Data_list %}
+                             <tr>
+                               <td>
+                                 <input type="checkbox" name= "check_box_list" value = "{{data}}"/>
+                                 <a href="/download/{{repo_base}}/{{repo}}/file/{{data}}">{{data}}</a>
+                               </td>
+                             </tr>
+                           {% endfor %}
+                          </tbody>
+                     </table>
+                </div>
+    
+            {% else %}
+          <p class="bg-warning">No data set in <strong>{{repo_base}}/{{repo}}</strong></p>
+        {% endif %}
+
+
+        </div>
+          <div class="panel panel-default">
+               <div class="panel-heading">
+                   <span class="lead">
+                        Code &nbsp;
+      
+                   </span>
+                </div>
+
+               {% if Code_list and Code_list|length > 0 %}
+                   <div class="table-responsive">
+                       <table class="table">
+                            <tbody>
+                                 {% for code in Code_list %}
+                                 <tr>
+                                    <td>
+                                      <input type="checkbox" name= "check_box_list" value = "{{code}}"/>
+                                      <a href="/download/{{repo_base}}/{{repo}}/file/{{code}}">{{code}}</a>
+                                    </td>
+                                 </tr>
+                                 {% endfor %}
+                            </tbody>
+                       </table>
+                   </div>
+            {% else %}
+            <p class="bg-warning">No code in <strong>{{repo_base}}/{{repo}}</strong></p>
+            {% endif %}
+    
+          </div>
+           <tr>
+          <button class="btn btn-primary btn-xsm" onclick="window.location.reload('/browse/{{repo_base}}/{{repo}}/data_code_list_update')"> Refresh</button>
+<!--add by beyhhhh--->
+          
+           </tr>
+            <input class="btn btn-primary btn-xsm" type="submit" style = "float:right;margin-right:0;" value="save the changes">
+        </form>
+</div>
+
+{% endblock %}
+
+
+
+
+

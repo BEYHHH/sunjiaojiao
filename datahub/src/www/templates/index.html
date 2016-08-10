@@ -1,0 +1,209 @@
+{% extends "layout.html" %}
+{% block body-tag %}
+<body class="bs-docs-home">
+{% endblock %}
+
+{% block header-tag %}
+<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+{% endblock %}
+
+{% block push %}
+{% endblock %}
+
+{% block content %}
+
+{% load staticfiles %}
+<main class="bs-docs-masthead" id="content" role="main">
+  <div class="container">
+    <p class="lead">
+    <span class="logo-text"></span>
+    <span><span class="logo-home center-block"></span>
+    <span class="logo-text"><span style="color:#00aeef">Data</span><span>Lab</span></span></span>
+    <br />
+      A Data Ecosystem for Individuals, Teams and People
+    </p>
+  </div>
+</main>
+<br />
+<div class="container bs-docs-container">
+<div class="row">
+  <div class="col-md-9" role="main">
+    <!-- Overview
+    ================================================== -->
+    
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-lg-12">
+              <h1 class="page-header">Most Popular Topics</h1>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4><em class="glyphicon glyphicon-envelope"></em> Most Emailed Topic</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
+                        <a href="#" class="btn btn-default">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="glyphicon glyphicon-share-alt"></i> Most Shared Topic</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
+                        <a href="#" class="btn btn-default">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4><em class="glyphicon glyphicon-eye-open"></em> Most Viewed Topic</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
+                        <a href="#" class="btn btn-default">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <h1 id="overview" class="page-header">DataLab</h1>
+      <h3><small>For End Users:</small></h3>
+      <ul>
+        <li>A way to store your data centrally, without having to set up your own database</li>
+        <li>A way to collaborate with others</li>
+        <li>A way to seamlessly share your data with friends and colleagues</li>
+        <li>A suite of tools to process your data</li>
+      </ul>
+      
+      <h3><small>For Developers:</small></h3>
+      <ul>
+        <li>A database-agnostic, language-agnostic, <a href="https://github.com/mitreid-connect/">MITREid (OpenID + OAuth2)</a> integrated platform for your mobile and web apps</li>
+        <li>A web client for easy manipulation of your data</li>
+        <li>An application ecosystem for data processing, including ingestion, curation, integration, discovery, query, analytics, visualization, and machine learning</li>
+        <li>A restful API</li>
+        <li>An MIT licensed open source project from <a href="http://csail.mit.edu">MIT CSAIL's</a> <a href="http://livinglab.mit.edu">Living Lab</a></li>
+      </ul>
+
+    </div>
+
+    <!-- Reading Materials
+    ================================================== -->
+    <div class="bs-docs-section">
+      <h1 id="all-publications" class="page-header">Publications</h1>
+      
+      <h3 id="publications"><small>Papers</small></h3>
+      <ul>
+        <li>
+          <a href="www-cs-students.stanford.edu/~adityagp/papers/datahubdemo.pdf">Collaborative Data Analytics with DataHub</a> [VLDB, 2015]
+        </li>
+        <!--
+        <li>
+          <a href="{% static "www/papers/datahub-generic.pdf" %}">DataHub: A Collaborative Dataset Management Platform</a> [Technical Report, 2015]
+        </li>
+        -->
+        <li>
+          <a href="http://db.csail.mit.edu/pubs/datahubcidr.pdf">
+            DataHub: Collaborative Data Science &amp; Dataset Version Management at Scale
+          </a>
+          [Paper, CIDR 2015]
+        </li>
+<!--         <li>
+        <a href="http://people.csail.mit.edu/anantb/public/docs/research/datahub/datahub-nedb.pdf">DataHub: A hosted platform for organizing, managing, sharing, collaborating, and processing data
+        </a>
+        [Technical Report]
+        </li> -->
+      </ul>
+      
+      <h3 id="talks"><small>Talks</small></h3>
+      <ul>
+        <li>
+          <a href="http://research.microsoft.com/apps/video/default.aspx?id=238430">
+            DataHub: A hosted platform for organizing, managing, sharing, collaborating, and processing data
+          </a>
+          [Talk by Anant Bhardwaj, Microsoft Research, 2015] [<a href="http://research.microsoft.com/apps/video/default.aspx?id=238430">Video</a> | <a href="http://nwds.cs.washington.edu/files/nwds/pdf/anantb-datahub-talk.pdf">Slides</a>]
+        </li>
+        
+      </ul>
+      
+    </div>
+
+
+    <!-- Team
+    ================================================== -->
+    <div class="bs-docs-section">
+      <h1 id="team" class="page-header">Team</h1>
+      <p>DataHub is hosted at MIT Computer Science &amp; Artificial Intelligence Lab (CSAIL) with collaborators from the University of Maryland - College Park, and the University of Illinois at Urbana-Champaign.</p>
+
+      <h3><small>Contributors:</small></h3>
+
+      <dl class="dl-horizontal">
+        <dt><a class="team-member" href="http://people.csail.mit.edu/anantb/"> Anant Bhardwaj</a></dt>
+        <dd>PhD Student, MIT CSAIL</dd>
+
+        
+      </dl>
+
+      <h3><small>Alumni:</small></h3>
+      <dl class="dl-horizontal">
+        <dt><a class="team-member" href="http://bigdata.csail.mit.edu/user/9">Elizabeth Bruce</a></dt>
+        <dd>Former Executive Director, MIT Big Data Initiative</dd>
+      </dl>
+    </div>
+
+
+    <!-- Contact
+    ================================================== -->
+    <div class="bs-docs-section">
+      <h1 id="resources" class="page-header">Resources</h1>
+      <dl class="dl-horizontal">
+        
+        <dt><a href="{% static 'docs/html/index.html' %}">Documentation</a></dt>
+        <dd>API documentation</dd>
+
+        <dt><a href="https://github.com/datahuborg/datahub/tree/master/src/examples">Example Code</a></dt>
+        <dd>sample code in various programming languages including C++, Java, Go, Python, and JavaScript</dd>
+
+        <dt><a href="https://github.com/datahuborg/datahub">GitHub Repo</a></dt>
+        <dd>the DataHub source code repository on GitHub</dd>
+      
+      </dl>
+
+    </div>
+
+    <!-- Contact
+    ================================================== -->
+    <div class="bs-docs-section">
+      <h1 id="contact" class="page-header">Contact</h1>
+      <p>Please email <a href="mailto:sbuckley@mit.edu">sbuckley@mit.edu</a> or subscribe to our <a href="https://mailman.mit.edu/mailman/listinfo/datahub">discussion list</a>.</p>
+    </div>
+
+  </div>
+
+  <div class="col-md-3">
+    <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm" role="complementary">
+      <ul class="nav bs-docs-sidenav">
+        <li><a href="#overview">What is DataLab?</a></li>
+        <li>
+          <a href="#all-publications">Publications</a>
+          <ul class="nav">
+            <li><a href="#publications">Papers</a></li>
+            <li><a href="#talks">Talks</a></li>
+            <li><a href="#blogs">Blogs</a></li>
+          </ul>
+        </li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a class="back-to-top" href="#top">Back to top</a>
+    </div>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}

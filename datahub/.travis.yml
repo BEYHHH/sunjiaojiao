@@ -1,0 +1,46 @@
+sudo: true
+# thrift-compiler is only available for trusty, not precise
+# Once Travis containers run trusty, or we no longer need thrift-compiler, we can drop sudo: true.
+dist: trusty
+language: python
+python: "2.7"
+
+addons:
+  postgresql: "9.4"
+  apt:
+    packages:
+      - thrift-compiler
+
+before_install:
+  - sudo mkdir /user_data
+  - sudo chmod -R 777 /user_data/
+
+install:
+  - source src/setup.sh
+  - pip install -r requirements.txt
+  - python src/scripts/generate_secret_key.py
+  - cd src
+
+
+before_script:
+  - psql -c "create database datahub;" -U postgres
+  - psql -c "drop role rails;" -U postgres
+  - psql -c "drop database travis;" -U postgres
+  - psql -c "drop role travis;" -U postgres
+
+script:
+  # Migrations must be run before creating public users
+  - python manage.py migrate
+
+  - python manage.py test inventory www account browser core api
+  - python manage.py test integration_tests
+  # tests models
+  # tests home page
+  # tests account management views
+  # tests datahub core views
+  # tests datahub core database access
+  # test datahub api methods
+
+  # a DB problem requires the Functional Tests to be run seperately
+  # - python manage.py test functional_tests.test_login_auth
+  # - python manage.py test functional_tests.test_layout_and_styling

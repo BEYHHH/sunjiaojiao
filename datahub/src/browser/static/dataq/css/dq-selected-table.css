@@ -1,0 +1,10 @@
+.dq-columns {
+  margin-top: 10px;
+  display: block;
+  font-weight: 500;
+  font-size: 12pt;
+}
+.dq-table-name {
+  cursor: auto;
+  color: black;
+}

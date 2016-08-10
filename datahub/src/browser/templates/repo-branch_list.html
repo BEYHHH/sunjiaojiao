@@ -1,0 +1,73 @@
+<!--beyhhhh code-->
+{% extends "repo-browse-template.html" %}
+{% block tabs %}
+
+
+{% endblock %}
+{% block tab-content %}
+
+
+<div class="container">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="lead">
+      Project Push Commit &nbsp;
+      
+    </span>
+  </div>
+
+  {% if branch_list and branch_list|length > 0 %}
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>            
+          {% for commit in branch_list %}
+            
+            {%if 1 > commit.position %}
+          <tr class="bg-warning">
+              <td>
+              <a onClick= "window.open('/browse/{{login}}/{{repo}}/{{commit.name}}/commit')">{{commit.name}}</a>
+              </td>
+              
+              <td>
+                  {{commit.commit.id}}
+              </td>
+              
+              <td>
+                  {{commit.commit.committed_date}}
+              </td>
+              <td>
+              <button type="button"
+            class="btn btn-primary" onclick="window.location.href='/browse/{{repo_base}}/{{repo}}'">Back</button>
+              </td>
+            </tr>
+         {%else%}
+            <tr>
+              <td>
+              <a onClick= "window.open('/browse/{{login}}/{{repo}}/{{commit.name}}/commit')">{{commit.name}}</a>
+              </td>
+                
+              <td>
+                  {{commit.commit.id}}
+              </td>
+                
+              <td>
+                  {{commit.commit.committed_date}}
+              </td> 
+              
+              <td>
+             <button type="button"
+            class="btn btn-primary" onclick="window.location.href='/browse/{{repo_base}}/{{repo}}/{{commit.name}}/reset'">Reset</button>
+              </td>
+          </tr>
+           {%endif%}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+  {% else %}
+    <p class="bg-warning">No branch set in <strong>{{repo_base}}/{{repo}}</strong></p>
+  {% endif %} 
+  </div>
+  </div>  
+{% endblock %}

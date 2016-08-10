@@ -1,0 +1,164 @@
+<!--beyhhhh code-->
+{% extends "repo-browse-template.html" %}
+{% block tabs %}
+
+
+{% endblock %}
+{% block tab-content %}
+
+<!--add by beyhhhh-->
+<form  action = "/browse/{{login}}/{{repo}}/move_code_to_repo" method="POST">
+    {% csrf_token %}
+<!--add by beyhhhh-->  
+    
+<div class="container">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="lead">
+      Special Code
+    </span>
+  </div>
+
+  {% if special_codes and special_codes|length > 0 %}
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>            
+          {% for code in special_codes%}
+          <tr>
+             <td>
+                  <input type="checkbox" name= "check_box_list"  value = "{{code.commit_name}}"/>
+                 <a>{{code.name}}</a>
+            </td>
+              <td>
+                  <a>{{code.username}}</a>
+              </td>
+              <td>
+                  <a>{{code.repo}}</a>
+              </td>
+              <td>
+                  <a>{{code.commit_id}}</a>
+              </td>
+              <td>
+                  <select>
+                      {%for a in code.data_set%}
+                      <option value="{{a.name}}">{{a.name}}</option>
+                      {%endfor%}
+                  </select>
+              </td>
+             <td class="text-right">
+                 
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+  {% else %}
+    <p class="bg-warning">No data set in {{data_class.name}}</p>
+  {% endif %} 
+ </div> 
+
+    
+    
+    
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="lead">
+      General Code
+    </span>
+  </div>
+
+ {% if general_codes and general_codes|length > 0 %}
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>            
+          {% for code in general_codes%}
+          <tr>
+             <td>
+                  <input type="checkbox" name= "check_box_list"  value = "{{code.commit_name}}"/>
+                 <a>{{code.name}}</a>
+            </td>
+              <td>
+                  <a>{{code.username}}</a>
+              </td>
+              <td>
+                  <a>{{code.repo}}</a>
+              </td>
+              <td>
+                  <a>{{code.commit_id}}</a>
+              </td>
+              <td>
+                  <select>
+                      {%for a in code.data_set%}
+                      <option value="{{a.name}}">{{a.name}}</option>
+                      {%endfor%}
+                  </select>
+              </td>
+             <td class="text-right">
+                 
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+  {% else %}
+    <p class="bg-warning">No data set in {{data_class.name}}</p>
+  {% endif %} 
+ </div> 
+
+    
+    
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="lead">
+      Other Codes
+    </span>
+  </div>
+
+  {% if other_codes and other_codes|length > 0 %}
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>            
+          {% for code in other_codes%}
+           <tr>
+             <td>
+                  <input type="checkbox" name= "check_box_list"  value = "{{code.commit_name}}"/>
+                 <a>{{code.name}}</a>
+            </td>
+              <td>
+                  <a>{{code.username}}</a>
+              </td>
+              <td>
+                  <a>{{code.repo}}</a>
+              </td>
+              <td>
+                  <a>{{code.commit_id}}</a>
+              </td>
+              <td>
+                  <select>
+                      {%for a in code.data_set%}
+                      <option value="{{a.name}}">{{a.name}}</option>
+                      {%endfor%}
+                  </select>
+              </td>
+             <td class="text-right">
+                 
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+  {% else %}
+    <p class="bg-warning">No data set in {{data_class.name}}</p>
+  {% endif %} 
+ </div> 
+
+    <input class="btn btn-primary btn-xsm modal-show-dialog" type ="submit"  style = "float:right;margin-right:0;" value="Add to the repos"> 
+</div>
+
+{% endblock %}

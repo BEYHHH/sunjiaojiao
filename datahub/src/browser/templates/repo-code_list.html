@@ -1,0 +1,43 @@
+<!--beyhhhh code-->
+{% extends "repo-browse-template.html" %}
+{% block tabs %}
+
+
+{% endblock %}
+{% block tab-content %}
+
+
+
+<div class="container">
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="lead">
+        Branch Name:{{branch.name}} &nbsp;
+        <br>
+        commit_id:{{branch.commit.id}}
+    </span>
+  </div>
+{% if code_list and code_list|length > 0%}   
+
+    <div class="table-responsive">
+      <table class="table">
+      {%for code in code_list%}
+         <tr>
+           <td>
+             <a onClick= "window.open('http://10.1.0.192/root/youuu/raw/{{branch.commit.id}}/{{code.name}}')">{{code.name}}</a>
+           </td>
+         </tr>
+       {%endfor%}
+      </table>
+    </div>
+   
+
+    {%else%}
+    
+    <a> There is no code in the branch</a>
+     {% endif %}
+  </div>
+ 
+  </div>  
+{% endblock %}
