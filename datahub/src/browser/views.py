@@ -1257,7 +1257,7 @@ def repo_create(request, repo_base):
             repo_dict["creat_data"] = {}
             repo_dict["time"] = time.strftime("%Y_%m_%d_%H_%M_%S",time.localtime(time.time()))
             
-            with open(path +"/json/"+ clone_name +".json", "w") as f:
+            with open(path +"/"+ clone_name +".json", "w") as f:
                     f.write(json.dumps(repo_dict))
                     
             print "clean the flord"
@@ -1315,8 +1315,8 @@ def repo_delete(request, repo_base, repo):
         print "the path isn't ok!" + path
         
         
-    if os.path.isdir(path + "json/" + clone_name + ".json"):
-        shutil.rmtree(path + "json/" + clone_name + ".json")
+    if os.path.isdir(path +  clone_name + ".json"):
+        shutil.rmtree(path + clone_name + ".json")
     else:
         print "the path isn't ok!" + path
     
