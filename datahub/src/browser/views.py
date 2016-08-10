@@ -1250,15 +1250,7 @@ def repo_create(request, repo_base):
             if os.path.isdir(path + "/" +clone_name):
                 os.shutil.rmtree(path + "/" +clone_name)
             
-            repo_dict = {}
-            repo_dict["repo_name"] = clone_name
-            repo_dict["username"] = username
-            repo_dict["date_set"] = {}
-            repo_dict["creat_data"] = {}
-            repo_dict["time"] = time.strftime("%Y_%m_%d_%H_%M_%S",time.localtime(time.time()))
             
-            with open(path +"/"+ clone_name +".json", "w") as f:
-                    f.write(json.dumps(repo_dict, indent=2))
                     
             print "clean the flord"
             os.chdir(path)
@@ -1275,6 +1267,23 @@ def repo_create(request, repo_base):
                 c.sendline("git123456")
                 c.interact()
             
+            
+            
+            repo_dict = {}
+            repo_dict["repo_name"] = clone_name
+            repo_dict["username"] = username
+            repo_dict["date_set"] = {}
+            repo_dict["creat_data"] = {}
+            repo_dict["time"] = time.strftime("%Y_%m_%d_%H_%M_%S",time.localtime(time.time()))
+            
+            with open(path +"/" + clone_name + "/" + clone_name +".json", "w") as f:
+                    f.write(json.dumps(repo_dict, indent=2))
+                    
+                    
+            param_dic = {}
+            with open(path +"/" + clone_name + "/" + "param.json", "w") as f:
+                    f.write(json.dumps(repo_dict, indent=2))
+                    
             print "complete the clone"
             print "OK"
         ####<<add by beyhhhh
@@ -1318,7 +1327,12 @@ def repo_delete(request, repo_base, repo):
     if os.path.isdir(path + clone_name + "/" + clone_name + ".json"):
         shutil.rmtree(path + clone_name + "/" + clone_name + ".json")
     else:
-        print "the path isn't ok!" + path
+        print "the system json path isn't ok!" + path
+    
+    if os.path.isdir(path + clone_name + "/" + "param.json"):
+        shutil.rmtree(path +  clone_name + "/" + "param.json")
+    else:
+        print "the param json path isn't ok!" + path
     
     ID = get_project_id(username,repo)
     

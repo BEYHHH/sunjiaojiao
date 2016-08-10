@@ -634,7 +634,7 @@ class DataHubManager:
         """
         ###even now still need some changes for the data version
         clone_name = self.get_clone_name(username,repo)
-        target_path = clone_file_path + "/" + clone_name + ".json"
+        target_path = clone_file_path + "/" + clone_name +"/" + clone_name + ".json"
         data_list = []
         if os.path.isfile(target_path):
             f = open(target_path)
