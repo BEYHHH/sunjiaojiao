@@ -189,7 +189,7 @@ class MyEventHandler(pyinotify.ProcessEvent):
         
 def update_every(username,repo):
     clone_name = get_clone_name(username,repo)
-    target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + clone_name
+    target_path = "/home/ubuntu/workspace/clone_file/" + clone_name
     
     wm = pyinotify.WatchManager()
     wm.add_watch(target_path, pyinotify.ALL_EVENTS, rec=True)
@@ -214,7 +214,7 @@ def get_branch(username,repo):
     """
     clone_name = get_clone_name(username,repo)
     
-    target_path = "/home/ubuntu/sunjiaojiao/datahub/clone_file/" + clone_name
+    target_path = "/home/ubuntu/workspace/clone_file/" + clone_name
     
     if os.path.isdir(target_path):
         os.chdir(target_path)
