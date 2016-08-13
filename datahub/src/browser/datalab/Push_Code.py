@@ -46,15 +46,21 @@ def __Push__(username,repo,data,branch,message = "push the code to run"):
     
     
     List =  os.listdir(target + "/" + branch["commit"]["id"] + "/" + repo_name)
-    Code_list = []
+    os.chdir(target + "/" + branch["commit"]["id"] + "/" + repo_name)
+    
+    
     for a in List:
         if a[a.rfind('.'):] == ".ipynb":
             os.system("ipython nbconvert --to python " + a)
     
+    
+    Code_list = []
     List =  os.listdir(target + "/" + branch["commit"]["id"] + "/" + repo_name)
     for a in List:
         if a[a.rfind('.'):] == ".py":
             Code_list.append(a)
+            
+            
     try:
         config = json.load(open(hook_config_path))
     except Exception as e:
@@ -67,6 +73,7 @@ def __Push__(username,repo,data,branch,message = "push the code to run"):
         repo_name = data['name']
         branch['branch_name'] = branch['name']
         branch['name'] = data['owner']['name']
+        branch['commit']['short_id'] = branch['commit']['id'][:11]
         branch['username'] = username
         branch['repo_name'] = repo_name
         branch['is_run'] = False

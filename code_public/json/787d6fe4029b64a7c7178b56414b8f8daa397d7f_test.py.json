@@ -8,36 +8,37 @@
       "name": "clinical_data_breast_cancer.csv", 
       "class": "edu", 
       "repo": null, 
-      "public": true, 
       "user": "public", 
+      "id": "clinical_data_breast_cancer.csv", 
       "path": "/home/ubuntu/sunjiaojiao/data_set_public/public_data/clinical_data_breast_cancer.csv", 
       "type": "csv", 
-      "id": "clinical_data_breast_cancer.csv"
+      "public": true
     }, 
     {
       "commit_id": null, 
       "name": "PAM50_proteins.csv", 
       "class": "edu", 
       "repo": null, 
-      "public": true, 
       "user": "public", 
+      "id": "PAM50_proteins.csv", 
       "path": "/home/ubuntu/sunjiaojiao/data_set_public/public_data/PAM50_proteins.csv", 
       "type": "csv", 
-      "id": "PAM50_proteins.csv"
+      "public": true
     }, 
     {
       "commit_id": "8ead139bae680944b49c279698c82c9d7caadf5a", 
       "name": "try.csv", 
       "class": null, 
       "repo": "test", 
-      "public": false, 
       "user": "sdubeyhhhh", 
+      "id": "8ead139bae680944b49c279698c82c9d7caadf5a_try.csv", 
       "path": "/home/ubuntu/sunjiaojiao/data_set_public/public_data/8ead139bae680944b49c279698c82c9d7caadf5a_try.csv", 
       "null": {}, 
       "type": "csv", 
-      "id": "8ead139bae680944b49c279698c82c9d7caadf5a_try.csv"
+      "public": false
     }
   ], 
   "repo": "test", 
+  "short_commit_id": "787d6f", 
   "commit_name": "787d6fe4029b64a7c7178b56414b8f8daa397d7f_test.py"
 }

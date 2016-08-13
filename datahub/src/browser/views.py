@@ -71,6 +71,13 @@ account_processor = AccountService.Processor(handler)
 
 thread_list = {}
 
+def get_project_config(username,clone_name):
+    return clone_file_path + "/" + clone_name + "/config"
+def get_project_param(username,clone_name):
+    return clone_file_path + "/" + clone_name + "/param"
+    
+
+
 def home(request):
     username = request.user.get_username()
     if username:
@@ -241,7 +248,7 @@ def move_data_to_repo(request, repo_base, repo):
     data_list = request.POST.getlist('check_box_list')
     clone_name = get_clone_name(username,repo)
     path = "/home/ubuntu/sunjiaojiao/data_set_public/json"
-    target = clone_file_path + "/" + clone_name + "/" + clone_name + ".json"
+    target = get_project_config(username,clone_name)
     
     if os.path.isfile(target):
         f = open(target)
@@ -1280,13 +1287,12 @@ def repo_create(request, repo_base):
             repo_dict["creat_data"] = {}
             repo_dict["time"] = time.strftime("%Y_%m_%d_%H_%M_%S",time.localtime(time.time()))
             
-            with open(path +"/" + clone_name + "/" + clone_name +".json", "w") as f:
+            with open(get_project_config(username,clone_name), "w") as f:
                     f.write(json.dumps(repo_dict, indent=2))
-                    
                     
             param_dic = {}
-            with open(path +"/" + clone_name + "/" + "param.json", "w") as f:
-                    f.write(json.dumps(repo_dict, indent=2))
+            with open(get_project_param(username,clone_name), "w") as f:
+                    f.write(json.dumps(param_dic, indent=2))
                     
             print "complete the clone"
             print "OK"
@@ -1326,17 +1332,6 @@ def repo_delete(request, repo_base, repo):
         shutil.rmtree(path + clone_name)
     else:
         print "the path isn't ok!" + path
-        
-        
-    if os.path.isdir(path + clone_name + "/" + clone_name + ".json"):
-        shutil.rmtree(path + clone_name + "/" + clone_name + ".json")
-    else:
-        print "the system json path isn't ok!" + path
-    
-    if os.path.isdir(path + clone_name + "/" + "param.json"):
-        shutil.rmtree(path +  clone_name + "/" + "param.json")
-    else:
-        print "the param json path isn't ok!" + path
     
     ID = get_project_id(username,repo)
     
@@ -1431,6 +1426,7 @@ def move_code_to_public(username,repo,code_list,data_list,commit_id):
             shutil.copyfile(path + code,src_path + commit_id + "_" + code)
             
             dic = {"name":code,"repo":repo,"username" : username,"data_set":data_list, "commit_id":commit_id,"commit_name":commit_id + "_" + code}
+            dic["short_commit_id"] = commit_id[0:11]
             
             with open(json_path + commit_id + "_" + code + '.json', 'w') as f:
                     f.write(json.dumps(dic, indent=2))

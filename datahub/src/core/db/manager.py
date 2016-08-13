@@ -22,6 +22,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 clone_file_path = "/home/ubuntu/workspace/clone_file"
 
+def get_project_config(username,clone_name):
+    return clone_file_path + "/" + clone_name + "/config"
 
 ####add by beyhhhh
 def remove(path):
@@ -634,7 +636,7 @@ class DataHubManager:
         """
         ###even now still need some changes for the data version
         clone_name = self.get_clone_name(username,repo)
-        target_path = clone_file_path + "/" + clone_name +"/" + clone_name + ".json"
+        target_path = get_project_config(username,clone_name)
         data_list = []
         if os.path.isfile(target_path):
             f = open(target_path)
@@ -662,6 +664,8 @@ class DataHubManager:
                 code_list.append(a)
             if a[a.rfind('.'):] == ".ipynb":
                 code_list.append(a)
+            if not '.' in a:
+                code_list.append(a)
         return code_list
     
     
@@ -674,7 +678,7 @@ class DataHubManager:
         if os.path.isdir(target_path):
             file_list = os.listdir(target_path)
         for a in file_list:
-            if a[a.rfind('.'):] == ".json":
+            if a[a.rfind('.'):] == "":
                 conf_list.append(a)
         return conf_list
     

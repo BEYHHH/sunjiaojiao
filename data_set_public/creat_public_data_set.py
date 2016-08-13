@@ -20,7 +20,8 @@ if os.path.isdir(target_path):
         dic = {}
         dic["name"] = a
         dic["id"] = a
-        dic["commit_id"] = None
+        dic["commit_id"] = a
+        dic["short_commit_id"] = dic
         dic["path"] = target_path + "/" + a
         dic["class"] = "edu"
         dic["repo"] = None
@@ -29,7 +30,7 @@ if os.path.isdir(target_path):
         dic["public"] = True
         print json_path +"/"+ a +".json"
         with open(json_path +"/"+ a +".json", "w") as f:
-            f.write(json.dumps(dic))
+            f.write(json.dumps(dic,indent=2))
             
             
             
