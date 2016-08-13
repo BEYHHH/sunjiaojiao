@@ -1434,7 +1434,6 @@ def move_code_to_public(username,repo,code_list,data_list,commit_id):
             
             with open(json_path + commit_id + "_" + code + '.json', 'w') as f:
                     f.write(json.dumps(dic, indent=2))
-    Push_process(src_path)
     
     
     
