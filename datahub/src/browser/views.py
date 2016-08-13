@@ -1404,6 +1404,7 @@ def repo_collaborators_add(request, repo_base, repo):
         )
         Data_list = manager.repo_data_list(username,repo)
         Code_list = manager.repo_code_list(username,repo)
+        print "make it public"
         move_code_to_public(username,repo,Code_list,Data_list,commit_id)
         
     ####<<<change by beyhhh
