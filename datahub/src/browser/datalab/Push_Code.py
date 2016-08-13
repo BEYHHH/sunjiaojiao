@@ -42,15 +42,19 @@ def __Push__(username,repo,data,branch,message = "push the code to run"):
     
     os.chdir(target + "/" + branch["commit"]["id"])
     os.system("git clone -b " + branch["name"] + " " + repo_url)
-    List =  os.listdir(target + "/" + branch["commit"]["id"] + "/" + repo_name)
     
+    
+    
+    List =  os.listdir(target + "/" + branch["commit"]["id"] + "/" + repo_name)
     Code_list = []
-    print List
-    print "code list "
+    for a in List:
+        if a[a.rfind('.'):] == ".ipynb":
+            os.system("ipython nbconvert --to python " + a)
+    
+    List =  os.listdir(target + "/" + branch["commit"]["id"] + "/" + repo_name)
     for a in List:
         if a[a.rfind('.'):] == ".py":
             Code_list.append(a)
-    
     try:
         config = json.load(open(hook_config_path))
     except Exception as e:

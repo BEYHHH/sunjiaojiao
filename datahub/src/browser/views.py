@@ -1004,6 +1004,10 @@ def get_branch_code(username,repo,commit_id,P_id):
                 f = open(target_path + '/' + a)
                 code_list.append({"name":a ,"code": f.read()})
                 f.close()
+            if a[a.rfind('.'):] == ".json":
+                f = open(target_path + '/' + a)
+                code_list.append({"name":a ,"code": f.read()})
+                f.close()
         print "code_list got"
         os.system("git checkout " + P_id) 
         if not thread_list.has_key(clone_name) or not thread_list[clone_name].is_alive():

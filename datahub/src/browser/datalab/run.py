@@ -22,6 +22,9 @@ target = "/home/ubuntu/workspace/Push_exp"
 clone_path = "/home/ubuntu/workspace/clone_file"
 
 def run(username,clone_repo,commit_id,src):
+    
+    print username,clone_repo,commit_id,src
+    print "the exp begin to run"
     List = db_connect.get_poject_exp_list(username,clone_repo)
     for a in List["exp_records"]:
         if a["commit"]["id"] == commit_id:
@@ -42,7 +45,7 @@ def run(username,clone_repo,commit_id,src):
         
 
 def run_the_code(username,commit_id,clone_repo,src_code):
-    target = "/home/ubuntu/sunjiaojiao/workspace/" + commit_id + "/" +clone_repo
+    target = "/home/ubuntu/workspace/Push_exp/" + commit_id + "/" +clone_repo
     print target
     if os.path.isdir(target):
         print "enter successfully"

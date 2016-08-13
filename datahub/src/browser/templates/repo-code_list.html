@@ -25,7 +25,7 @@
       {%for code in code_list%}
          <tr>
            <td>
-             <a onClick= "window.open('http://10.1.0.192/root/youuu/raw/{{branch.commit.id}}/{{code.name}}')">{{code.name}}</a>
+             <a onClick= "window.open('http://10.1.0.192/root/{{repo}}/raw/{{branch.commit.id}}/{{code.name}}')">{{code.name}}</a>
            </td>
          </tr>
        {%endfor%}
