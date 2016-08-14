@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-# encoding: utf-8
-
+#-*- coding:utf-8 -*-
 __author__ = 'beyhhhh'
 
 __all__=["run","exp","Push_Code","db_connect"]

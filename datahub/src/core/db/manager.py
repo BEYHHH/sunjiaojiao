@@ -628,7 +628,7 @@ class DataHubManager:
                 shutil.copyfile(path + code,src_path + code)
                 dic = {"name":code,"repo":repo,"username" : username,"data_set":data_list}
                 with open(json_path + code + '.json', 'w') as f:
-                    f.write(json.dumps(dic, indent=2))
+                    f.write(json.dumps(dic, indent=2, ensure_ascii=False))
 
     def repo_data_list(self,username,repo):
         """
