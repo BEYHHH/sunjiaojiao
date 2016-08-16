@@ -8,34 +8,22 @@
       "name": "clinical_data_breast_cancer.csv", 
       "class": "edu", 
       "repo": null, 
+      "public": true, 
       "user": "public", 
-      "id": "clinical_data_breast_cancer.csv", 
       "path": "/home/ubuntu/sunjiaojiao/data_set_public/public_data/clinical_data_breast_cancer.csv", 
       "type": "csv", 
-      "public": true
+      "id": "clinical_data_breast_cancer.csv"
     }, 
     {
       "commit_id": null, 
       "name": "PAM50_proteins.csv", 
       "class": "edu", 
       "repo": null, 
+      "public": true, 
       "user": "public", 
-      "id": "PAM50_proteins.csv", 
       "path": "/home/ubuntu/sunjiaojiao/data_set_public/public_data/PAM50_proteins.csv", 
       "type": "csv", 
-      "public": true
-    }, 
-    {
-      "commit_id": "8ead139bae680944b49c279698c82c9d7caadf5a", 
-      "name": "try.csv", 
-      "class": null, 
-      "repo": "test", 
-      "user": "sdubeyhhhh", 
-      "id": "8ead139bae680944b49c279698c82c9d7caadf5a_try.csv", 
-      "path": "/home/ubuntu/sunjiaojiao/data_set_public/public_data/8ead139bae680944b49c279698c82c9d7caadf5a_try.csv", 
-      "null": {}, 
-      "type": "csv", 
-      "public": false
+      "id": "PAM50_proteins.csv"
     }
   ], 
   "repo": "test", 

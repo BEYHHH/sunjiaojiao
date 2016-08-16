@@ -69,7 +69,7 @@
           {% for code in Code_list %}
           <tr>
              <td>
-              <a  onClick= "window.open('http://10.1.0.195:8888/edit/workspace/clone_file/{{repo}}/{{code}}')">{{code}}</a>
+              <a  onClick= "window.open('http://10.2.0.113:8888/edit/workspace/clone_file/{{repo}}/{{code}}')">{{code}}</a>
             </td>
             
             <td class="text-right">
@@ -160,7 +160,7 @@
   {% endif %} 
   </div>
     
-    <button class="btn btn-primary btn-xsm back" type="button"  onClick= "window.open('http://10.1.0.195:8888/tree/workspace/clone_file/{{repo}}')" title="Manager Code">Manager Code</button>
+    <button class="btn btn-primary btn-xsm back" type="button"  onClick= "window.open('http://10.2.0.113:8888/tree/workspace/clone_file/{{repo}}')" title="Manager Code">Manager Code</button>
     <button class="btn btn-primary btn-xsm back" type="button"  onclick="window.location.href='/browse/{{repo_base}}/{{repo}}/upload_github'" title="Push Codes" style = "float:right;margin-right:0;">Push Code</button>
  </div>
 

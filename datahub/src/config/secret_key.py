@@ -1,1 +1,1 @@
-SECRET_KEY = 'rsn$+ip=$z0%8^*4gqn$lc&5*@92(4pw@7hhz6a++ogm0aj+1y'
+SECRET_KEY = 'fe+69(w%^5ye@qd43$ds@=nsm$zit(@+j+eq)-k@yk60u7(o9r'

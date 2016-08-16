@@ -49,11 +49,11 @@ Datahub Web Handler
 ###add by beyhhhh
 import csv
 
-
-gitlab_url = "10.1.0.192"
+gitlab_url = "10.2.0.112"
 hearder = "--header \"PRIVATE-TOKEN:L4414iPPE3zknxmk7xQ8\" "
 user_id_pass = " -u \"root:git123456\" "
 api_url = " \"http://" + gitlab_url + "/api/v3/"
+
 hook_shell = " -d \"url=http://10.1.0.195:1234\""
 commal_url = "curl " + hearder + user_id_pass + api_url
 
@@ -70,13 +70,23 @@ account_processor = AccountService.Processor(handler)
 
 
 thread_list = {}
-
+####add by beyhhhh>>>
 def get_project_config(username,clone_name):
     return clone_file_path + "/" + clone_name + "/config"
 def get_project_param(username,clone_name):
     return clone_file_path + "/" + clone_name + "/param"
-    
 
+
+def get_the_json(target_path):
+    f = open(target_path)
+    dic = json.load(f)
+    
+def write_the_json(target_path,dic):
+    with open(target_path,'w') as f:
+        f.write(json.dumps(dic, indent=2, ensure_ascii=False))
+
+
+####<<<add by beyhhhh
 
 def home(request):
     username = request.user.get_username()
@@ -232,7 +242,7 @@ def move_code_to_repo(request, repo_base, repo):
                     if C:
                         dic["data_set"].append(data_set_in_repo)
                 with open(path +"json/"+ a +".json", "w") as f:
-                    f.write(json.dumps(dic, indent=2, ensure_ascii=False))
+                    f.write(json.dumps(dic, indent=2))
             
             if os.path.isfile(path + "public_code/" + a):
                 print "move the public code to target"
@@ -257,9 +267,11 @@ def move_data_to_repo(request, repo_base, repo):
             if os.path.isfile(path + "/" + a + ".json"):
                 f = open(path + "/" + a + ".json")
                 data_dic = json.load(f)
-                repo_dic["date_set"][data_dic["id"]] = data_dic 
+                
+                repo_dic[u"date_set"][data_dic["id"]] = data_dic 
+        print json.dumps(repo_dic, indent=2, ensure_ascii=False)
         with open(target,"w") as w:
-            w.write(json.dumps(repo_dic, indent=2, ensure_ascii=False))
+            w.write(json.dumps(repo_dic, indent=2, ensure_ascii=False).encode('utf8'))
             
     return HttpResponseRedirect("/browse/" + username + "/" + repo + "/")
     
@@ -1222,7 +1234,7 @@ def Make_data_set_public(request, repo_base, repo, file_id ):
         dic["public"] = True
         print dic
         with open(target_path, "w") as f:
-            f.write(json.dumps(dic, indent=2, ensure_ascii=False))
+            f.write(json.dumps(dic, indent=2))
      
     return HttpResponseRedirect('/browse/'+ username + '/' + repo)   
     
@@ -1288,11 +1300,11 @@ def repo_create(request, repo_base):
             repo_dict["time"] = time.strftime("%Y_%m_%d_%H_%M_%S",time.localtime(time.time()))
             
             with open(get_project_config(username,clone_name), "w") as f:
-                    f.write(json.dumps(repo_dict, indent=2, ensure_ascii=False))
+                    f.write(json.dumps(repo_dict, indent=2, ensure_ascii=False).encode('utf8'))
                     
             param_dic = {}
             with open(get_project_param(username,clone_name), "w") as f:
-                    f.write(json.dumps(param_dic, indent=2, ensure_ascii=False))
+                    f.write(json.dumps(param_dic, indent=2, ensure_ascii=False).encode('utf8'))
                     
             print "complete the clone"
             print "OK"
@@ -1429,7 +1441,7 @@ def move_code_to_public(username,repo,code_list,data_list,commit_id):
             dic["short_commit_id"] = commit_id[0:11]
             
             with open(json_path + commit_id + "_" + code + '.json', 'w') as f:
-                    f.write(json.dumps(dic, indent=2, ensure_ascii=False))
+                    f.write(json.dumps(dic, indent=2))
     
     
     
