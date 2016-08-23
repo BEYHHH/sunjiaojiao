@@ -21,6 +21,10 @@ from inventory.models import App, Card, Collaborator, DataHubLegacyUser
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 clone_file_path = "/home/ubuntu/workspace/clone_file"
+public_code = "/home/ubuntu/workspace/code_public"
+public_data = "/home/ubuntu/workspace/data_set_public"
+
+
 
 def get_project_config(username,clone_name):
     return clone_file_path + "/" + clone_name + "/config"
@@ -621,8 +625,8 @@ class DataHubManager:
     def move_code_to_public(self,username,repo,code_list,data_list):
         clone_name = self.get_clone_name(username,repo)
         path = clone_file_path + "/" +clone_name +"/"
-        src_path = "/home/ubuntu/sunjiaojiao/code_public/src/"
-        json_path = "/home/ubuntu/sunjiaojiao/code_public/json/"
+        src_path = public_code + "/src/"
+        json_path = public_code + "/json/"
         for code in code_list:
             if os.path.isfile(path + code):
                 shutil.copyfile(path + code,src_path + code)
@@ -1317,7 +1321,7 @@ class DataHubManager:
 
         # prepare some variables
         file_path = user_data_path(repo_base, repo, file_name)
-        file_path = "/home/ubuntu/sunjiaojiao/data_set_public/public_data/" + file_name
+        file_path = public_data + "/public_data/" + file_name
         print file_path
         table_name, _ = os.path.splitext(file_name)
         table_name = clean_str(table_name, 'table')

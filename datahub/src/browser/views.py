@@ -62,6 +62,8 @@ git_url = "http://" + gitlab_url + "/root/"
 clone_file_path = "/home/ubuntu/workspace/clone_file"
 
 
+public_code = "/home/ubuntu/workspace/code_public"
+public_data = "/home/ubuntu/workspace/data_set_public"
 
 handler = DataHubHandler()
 core_processor = DataHub.Processor(handler)
@@ -220,7 +222,7 @@ def move_code_to_repo(request, repo_base, repo):
     username = request.user.get_username()
     clone_name = get_clone_name(username,repo)
     code_list =  request.POST.getlist('check_box_list')
-    path = "/home/ubuntu/sunjiaojiao/code_public/"
+    path = public_code + "/"
     target = clone_file_path+ "/" + clone_name + "/"
     with DataHubManager(user=username, repo_base=repo_base) as manager:
             data_list = manager.repo_data_list(username,repo)
@@ -257,7 +259,7 @@ def move_data_to_repo(request, repo_base, repo):
     username = request.user.get_username()
     data_list = request.POST.getlist('check_box_list')
     clone_name = get_clone_name(username,repo)
-    path = "/home/ubuntu/sunjiaojiao/data_set_public/json"
+    path =public_data + "/json"
     target = get_project_config(username,clone_name)
     
     if os.path.isfile(target):
@@ -296,7 +298,7 @@ def public_data_set(request,repo_base = None):
             repos = manager.list_repos()
             
             
-    date_path = "/home/ubuntu/sunjiaojiao/data_set_public/json"
+    date_path = public_data + "/json"
     
     data_sets ={}
     
@@ -340,10 +342,10 @@ def add_datas_to_repo(request, repo_base, repo):
     with DataHubManager(user=username, repo_base=repo_base) as manager:  
         repos = manager.list_repos()
         
-    basic_path = '/home/ubuntu/sunjiaojiao/data_set_public'
+    basic_path = public_data + "/data_set_public"
     #### it has been delect something
     
-    date_path = "/home/ubuntu/sunjiaojiao/data_set_public/json"
+    date_path = public_data + "/json"
     
     data_sets ={}
     
@@ -434,7 +436,7 @@ def add_codes_to_repo(request, repo_base, repo):
 def get_public_code_list():
     
     
-    json_path = "/home/ubuntu/sunjiaojiao/code_public/json"
+    json_path =public_code + "/json"
     code_list = []
     if os.path.isdir(json_path):
         file_list = os.listdir(json_path)
@@ -456,7 +458,7 @@ def add_to_the_repo(request,repo_base):
     data_list = request.POST.getlist('check_box_list')
     Repo = request.POST.getlist('repo')
     repo = Repo[0]
-    path = "/home/ubuntu/sunjiaojiao/data_set_public/"
+    path = public_data + "/"
     target = clone_file_path + "/" + repo + "/"
 
     if len(data_list) > 0:
@@ -1225,7 +1227,7 @@ def get_commit_list(username,repo):
 def Make_data_set_public(request, repo_base, repo, file_id ):
     username = request.user.get_username()
     clone_name = get_clone_name(username,repo)
-    json_path =  "/home/ubuntu/sunjiaojiao/data_set_public/json"
+    json_path =  public_data + "/json"
     target_path = json_path + "/" + file_id + ".json"
     print target_path
     if os.path.isfile(target_path):
@@ -1424,9 +1426,9 @@ def repo_collaborators_add(request, repo_base, repo):
 def move_code_to_public(username,repo,code_list,data_list,commit_id):
     clone_name = get_clone_name(username,repo)
     
-    json_path = "/home/ubuntu/sunjiaojiao/code_public/json/"
+    json_path = public_code + "/json/"
     
-    src_path = "/home/ubuntu/sunjiaojiao/code_public/public_code/"
+    src_path = public_code + "/public_code/"
     
     path = clone_file_path + "/" +clone_name +"/"
     
@@ -1574,7 +1576,7 @@ def table(request, repo_base, repo, table):
 def table_show(request, repo_base, repo, file_name):
     username = request.user.get_username()
     
-    file_path = "/home/ubuntu/sunjiaojiao/data_set_public/public_data/" + file_name
+    file_path = public_data + "/public_data/" + file_name
     with open(file_path,'rb') as f:
         reader = list(csv.reader(f))
         f.close()
