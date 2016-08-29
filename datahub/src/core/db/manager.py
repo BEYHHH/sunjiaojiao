@@ -664,12 +664,21 @@ class DataHubManager:
             file_list = os.listdir(target_path)
             
         for a in file_list:
+            dic = {}
             if a[a.rfind('.'):] == ".py":
-                code_list.append(a)
+                dic["name"] = a
+                dic["url"] = "edit"
+                code_list.append(dic)
+                
             if a[a.rfind('.'):] == ".ipynb":
-                code_list.append(a)
+                dic["name"] = a
+                dic["url"] = "notebooks"
+                code_list.append(dic)
+                
             if not '.' in a:
-                code_list.append(a)
+                dic["name"] = a
+                dic["url"] = "edit"
+                code_list.append(dic)
         return code_list
     
     

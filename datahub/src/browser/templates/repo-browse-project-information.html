@@ -69,7 +69,7 @@
           {% for code in Code_list %}
           <tr>
              <td>
-              <a  onClick= "window.open('http://10.2.0.113:8888/edit/workspace/clone_file/{{repo}}/{{code}}')">{{code}}</a>
+              <a  onClick= "window.open('http://10.2.0.113:8888/{{code.url}}/workspace/clone_file/{{repo}}/{{code.name}}')">{{code.name}}</a>
             </td>
             
             <td class="text-right">

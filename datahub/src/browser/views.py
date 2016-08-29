@@ -393,7 +393,6 @@ def add_codes_to_repo(request, repo_base, repo):
     with DataHubManager(user=username, repo_base=repo_base) as manager:
         Data_list = manager.repo_data_list(username,repo)
         ### to get the cvs that the repo has, so we can select the codes that have someting to do with the cvs
-        Code_List = manager.repo_code_list(username,repo)
         ### get the codes in the public, include the name details and the cvs that it sloved before
     
     public_code_list = get_public_code_list()
@@ -1435,7 +1434,8 @@ def move_code_to_public(username,repo,code_list,data_list,commit_id):
     if not os.path.isdir(src_path) or not os.path.isdir(json_path):
         return
     
-    for code in code_list:
+    for code_l in code_list:
+        code = code_l["name"]
         if os.path.isfile(path + code):
             shutil.copyfile(path + code,src_path + commit_id + "_" + code)
             
