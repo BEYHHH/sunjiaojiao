@@ -40,7 +40,7 @@ def __Push__(username,repo,data,branch,message = "push the code to run"):
     
     if not os.path.isdir(target + "/" + branch["commit"]["id"]):
         return
-    
+    print target + "/" + branch["commit"]["id"]
     os.chdir(target + "/" + branch["commit"]["id"])
     os.system("git clone -b " + branch["name"] + " " + repo_url)
     

@@ -539,7 +539,7 @@ def user(request, repo_base=None):
 Repository
 '''
 
-
+@csrf_protect
 def repo(request, repo_base, repo):
     '''
     forwards to repo_tables method
@@ -596,7 +596,7 @@ def repo(request, repo_base, repo):
         "commit_list":commit_list
         }
     
-    
+    cont.update(csrf(request))
     return  render_to_response("repo-browse-project-information.html", cont)
 
 
@@ -883,13 +883,6 @@ def creat_github_repo(username,repo):
     
     pexpect.run(shell)
     print "creat completely"
-    
-    ID = get_project_id(username,repo)
-    
-    add_hook_shell = "curl  " + hearder + user_id_pass + api_url + "projects/" + str(ID) + "/hooks\"" + hook_shell
-    
-    print add_hook_shell
-    pexpect.run(add_hook_shell)
     print "add OK"
 
 
@@ -1131,14 +1124,16 @@ def get_project_id(username,repo):
     """
     clone_name = get_clone_name(username,repo)
     
-    shell = commal_url + "projects\""
+    shell = commal_url + "projects/search/" +clone_name + " \""
     print shell
     
     a = pexpect.run(shell)
     s = json.loads(a)
     
     for detial in s:
+        print detial
         if detial["name"] == clone_name:
+            print detial["name"]
             return detial["id"]         
     raise Exception("can't get the id")
     
@@ -1319,6 +1314,8 @@ def repo_create(request, repo_base):
         print "the thread of " + clone_name
         print thread_list[clone_name].is_alive()
         
+        
+        print get_project_id(username,clone_name)
         return HttpResponseRedirect('/browse/'+ username +'/')
     
     elif request.method == 'GET':
@@ -1671,6 +1668,72 @@ def code_upload(request, repo_base, repo):
 
     return HttpResponseRedirect(
         reverse('browser-repo_codes', args=(repo_base, repo)))
+
+
+
+
+def data_upload(request, repo_base, repo):
+    
+    print "enter"
+    username = request.user.get_username()
+    data_file = request.FILES['data_file']
+    data_name = clean_file_name(data_file.name)
+    print data_name + "    sdafasdfasdf"
+    if not data_name.endswith(".csv"):
+        return HttpResponseRedirect('/browse/'+ username + '/' + repo)   
+    file_path = "%s/%s/%s" % (public_data
+,"public_data",data_name)
+    with open(file_path, 'wb+') as destination:
+        for chunk in data_file.chunks():
+            destination.write(chunk)
+            
+            
+            
+    print "upload succss"
+    data_information(username, data_name, file_path)
+    
+    data_list = [data_name]
+    clone_name = get_clone_name(username,repo)
+    path =public_data + "/json"
+    target = get_project_config(username,clone_name)
+    if os.path.isfile(target):
+        f = open(target)
+        repo_dic = json.load(f)
+        for a in data_list:
+            if os.path.isfile(path + "/" + a + ".json"):
+                f = open(path + "/" + a + ".json")
+                data_dic = json.load(f)
+                
+                repo_dic[u"date_set"][data_dic["id"]] = data_dic 
+        print json.dumps(repo_dic, indent=2, ensure_ascii=False)
+        with open(target,"w") as w:
+            w.write(json.dumps(repo_dic, indent=2, ensure_ascii=False).encode('utf8'))
+            
+    return HttpResponseRedirect("/browse/" + username + "/" + repo + "/")
+    
+
+
+    
+def data_information(username, data_name, file_path, repo = None, data_class = None, public = False, Type = u'csv'):
+    print "data_name.endswith(\".csv\")    ",data_name.endswith(u".csv")
+    if data_name.endswith(u".csv"):
+        dic = {}
+        dic[u"name"] = dic[u"id"] = dic[u"commit_id"] = dic[u"short_commit_id"] = data_name
+        dic[u"path"] = file_path
+        dic[u"class"] = data_class
+        dic[u"repo"] = repo
+        dic[u"user"] = username
+        dic[u"type"] = Type
+        dic[u"public"] = public
+        with open(u"%s/%s/%s.json" % (public_data ,u"json",data_name), 'w') as f:
+            json.dump(dic, f, indent=2, default=True)
+            
+        print"end success"    
+        return dic
+    
+    
+def clean_file_name(text):
+    return text
 
 
 ###<<add by beyhhhh

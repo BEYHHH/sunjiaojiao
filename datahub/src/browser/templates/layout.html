@@ -41,7 +41,11 @@ DataHub Template Layout
 <script type="text/javascript" src="/static/lib/thrift/thrift.js"></script>
 <script type="text/javascript" src="/static/lib/datahub/datahub_types.js"></script>
 <script type="text/javascript" src="/static/lib/datahub/DataHub.js"></script>
+    
+<!--
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+-->
+    
 <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.runtime.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.1/icheck.js"></script>
@@ -61,9 +65,12 @@ DataHub Template Layout
 {% endblock %}
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+    <!--
 <script type="text/javascript">
 google.load("visualization", "1", {packages:["corechart", "table", "timeline", "map"]});
 </script>
+-->
 </head>
 {% block body-tag %}
 <body>

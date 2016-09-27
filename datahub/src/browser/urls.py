@@ -186,6 +186,9 @@ urlpatterns = patterns(
     #add bey beyhhhh>>>
     url(r'^upload/(\w+)/(\w+)/code/?$', 'browser.views.code_upload',
         name='browser-code_upload'),
+    
+    url(r'^upload/(\w+)/(\w+)/data/?$', 'browser.views.data_upload',
+        name='browser-data_upload'),
     #<<<add by beyhhhh
     
     url(r'^import/(\w+)/(\w+)/file/([ -~]+)', 'browser.views.file_import',

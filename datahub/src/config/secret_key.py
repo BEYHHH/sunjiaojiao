@@ -1,1 +1,1 @@
-SECRET_KEY = 'fe+69(w%^5ye@qd43$ds@=nsm$zit(@+j+eq)-k@yk60u7(o9r'
+SECRET_KEY = '0tp0fn%8(!3190^g-wh-*%qe+=emrq#$n@-zw)y#2cjp%qjcoe'
