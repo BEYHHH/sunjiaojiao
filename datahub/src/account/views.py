@@ -102,7 +102,33 @@ def register(request):
             username = form.cleaned_data['username'].lower()
             email = form.cleaned_data['email'].lower()
             password = form.cleaned_data['password']
+
             User.objects.create_user(username, email, password)
+            # create a system user
+            
+            
+            
+            #>>>>add by zhangyang
+            
+            
+            import os
+            cmd = "adduser --disabled-password --gecos \"\" %s" % (username)
+            print cmd
+            os.system(cmd)
+            # change password
+            filename = "./passwd.tmp"
+            with open(filename, 'w') as f:
+                f.write("%s\n%s" % (password, password))
+            cmd = "passwd %s < %s" % (username, filename)
+            print cmd
+            os.system(cmd)
+            os.system("rm %s" % (filename))
+            
+            
+            #<<<<add by zhangyang
+            
+            
+            
             # A signal handler in signals.py listens for the pre_save signal
             # and throws an IntegrityError if the user's email address is not
             # unique. Username uniqueness is handled by the model.
@@ -112,7 +138,10 @@ def register(request):
             # doesn't exist. If the database cannot be created, that handler
             # will throw an exception.
             user = datahub_authenticate(username, password)
-
+            
+            
+            
+            
             if user is not None and user.is_active:
                 django_login(request, user)
                 # Append auth_user to redirect_uri so apps like Kibitz can

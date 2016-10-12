@@ -32,7 +32,7 @@ def __Push__(username,repo,data,branch,message = "push the code to run"):
     print data
     repo_url = data["http_url_to_repo"]
     repo_name = data["name"]
-    print "current dir: "+os.getcwd()
+    print "current dir: "+ os.getcwd()
     if os.path.isdir(target):
         if os.path.isdir(target + "/" + branch["commit"]["id"]):
             shutil.rmtree(target + "/" + branch["commit"]["id"])
@@ -81,7 +81,7 @@ def __Push__(username,repo,data,branch,message = "push the code to run"):
         branch['has_run'] = False
         branch['codes'] = Code_list
         branch['note'] = message
-        print branch
+        
         
         
         

@@ -56,7 +56,8 @@ urlpatterns = patterns(
         name='browser-card_create'),
     url(r'^create/annotation/?$', 'browser.views.create_annotation',
         name='browser-create_annotation'),
-
+    url(r'^browse/board/?$', 'browser.views.show_board',
+        name='browser-show_board'),
 
 
     # Browse
@@ -71,46 +72,35 @@ urlpatterns = patterns(
     ##add by strongman
     
     
-    url(r'^browse/(\w+)/(\w+)/record/?$','browser.views.record',
-        name='browser-record'),
+    
     url(r'^browse/(\w+)/(\w+)/?$', 'browser.views.repo',
         name='browser-repo'),
-
-    url(r'^browse/(\w+)/(\w+)/tables/?$', 'browser.views.repo_tables',
-        name='browser-repo_tables'),
-    url(r'^browse/(\w+)/(\w+)/files/?$', 'browser.views.repo_files',
-        name='browser-repo_files'),
+    #url(r'^browse/(\w+)/(\w+)/record/?$','browser.views.record',name='browser-record'),
+    #url(r'^browse/(\w+)/(\w+)/tables/?$', 'browser.views.repo_tables',name='browser-repo_tables'),
+    #url(r'^browse/(\w+)/(\w+)/files/?$', 'browser.views.repo_files',name='browser-repo_files'),
     
     ####>>add by beyhhhh
-    url(r'^browse/(\w+)/(\w+)/codes/?$', 'browser.views.repo_codes',
-        name='browser-repo_codes'),
+    ##url(r'^browse/(\w+)/(\w+)/codes/?$', 'browser.views.repo_codes',name='browser-repo_codes'),
     ####<<add by beyhhhh
     
-    url(r'^browse/(\w+)/(\w+)/cards/?$', 'browser.views.repo_cards',
-        name='browser-repo_cards'),
+    ##url(r'^browse/(\w+)/(\w+)/cards/?$', 'browser.views.repo_cards',name='browser-repo_cards'),
     
     
     
     ####>>add by beyhhhh
-    url(r'^browse/(\w+)/(\w+)/creat_new_codes/?$', 'browser.views.creat_new_codes',
-        name='browser-creat_new'),
+    #url(r'^browse/(\w+)/(\w+)/creat_new_codes/?$', 'browser.views.creat_new_codes',name='browser-creat_new'),
     
-    url(r'^browse/(\w+)/(\w+)/creat_new_data_sets/?$', 'browser.views.creat_new_data_sets',
-        name='browser-creat_new'),
+    #url(r'^browse/(\w+)/(\w+)/creat_new_data_sets/?$', 'browser.views.creat_new_data_sets',name='browser-creat_new'),
     
-    url(r'^browse/(\w+)/(\w+)/data_code_list_update/?$', 'browser.views.data_code_list_update',
-        name='data_code_list_update'),
+    #url(r'^browse/(\w+)/(\w+)/data_code_list_update/?$', 'browser.views.data_code_list_update',name='data_code_list_update'),
     
-    url(r'^browse/(\w+)/(\w+)/Push/?$', 'browser.views.data_code_list_update_github',
-        name='data_code_list_update_github'),
+    #url(r'^browse/(\w+)/(\w+)/Push/?$', 'browser.views.data_code_list_update_github',name='data_code_list_update_github'),
     
-    url(r'^browse/(\w+)/(\w+)/update_file_flord_codes_data/?$', 'browser.views.update_file_flord_codes_data',
-        name='browser-update_file_flord_codes_data'),
+    #url(r'^browse/(\w+)/(\w+)/update_file_flord_codes_data/?$', 'browser.views.update_file_flord_codes_data',name='browser-update_file_flord_codes_data'),
     
     #url(r'^browse/(\w+)/(\w+)/jupyter_coding/?$', 'browser.views.jupyter_coding',name='browser-creat_new'),
     
-    url(r'^browse/(\w+)/(\w+)/upload_github/?$', 'browser.views.upload_github',
-        name='browser-upload_github'),
+    url(r'^browse/(\w+)/(\w+)/upload_github/?$', 'browser.views.upload_github',name='browser-upload_github'),
     
     url(r'^browse/(\w+)/(\w+)/branch_list/?$', 'browser.views.code_branch_list',
         name='browser-branch_list'),
@@ -125,6 +115,8 @@ urlpatterns = patterns(
     url(r'^browse/(\w+)/(\w+)/(.+)/table_show/?$', 'browser.views.table_show',name='browser-table_show'),
     
      url(r'^browse/(\w+)/(\w+)/(.+)/Make_data_set_public/?$', 'browser.views.Make_data_set_public',name='browser-Make_data_set_public'),
+    
+     url(r'^browse/(\w+)/(\w+)/(.+)/Make_code_public/?$', 'browser.views.Make_code_public',name='browser-Make_code_public'),
     ####<<add by beyhhhh
     
 
@@ -197,18 +189,13 @@ urlpatterns = patterns(
 
 
     # Settings
-    url(r'^settings/(\w+)/(\w+)/?$', 'browser.views.repo_settings',
-        name='browser-repo_settings'),
+    #url(r'^settings/(\w+)/(\w+)/?$','browser.views.repo_settings',name='browser-repo_settings'),
 
 
     # Collaborators
-    url(r'^collaborator/repo/(\w+)/(\w+)/add/?$',
-        'browser.views.repo_collaborators_add',
-        name='browser-repo_collaborators_add'),
+    # url(r'^collaborator/repo/(\w+)/(\w+)/add/?$','browser.views.repo_collaborators_add',name='browser-repo_collaborators_add'),
 
-    url(r'^collaborator/repo/(\w+)/(\w+)/remove/(\w+)/?$',
-        'browser.views.repo_collaborators_remove',
-        name='browser-repo_collaborators_remove'),
+    #url(r'^collaborator/repo/(\w+)/(\w+)/remove/(\w+)/?$','browser.views.repo_collaborators_remove',name='browser-repo_collaborators_remove'),
 
 
     # Developer Apps

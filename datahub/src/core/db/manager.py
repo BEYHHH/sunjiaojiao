@@ -26,8 +26,20 @@ public_data = "/home/ubuntu/workspace/data_set_public"
 
 
 
+def get_projec_path(username,clone_name):
+    return u"/home/%s/%s" % (username,clone_name)
+
+def get_user_path(username):
+    return u"/home/%s" % (username)
+
 def get_project_config(username,clone_name):
-    return clone_file_path + "/" + clone_name + "/config"
+    return (get_projec_path(username,clone_name) + u"/config")
+
+def get_project_parma(username,clone_name):
+    return (get_projec_path(username,clone_name) + u"/param")
+
+def get_clone_name(username,repo):
+    return repo
 
 ####add by beyhhhh
 def remove(path):
@@ -116,11 +128,11 @@ class DataHubManager:
         #change by strongman
         #create_record_file(repo)
         print "create repo"
-        
+
         return self.user_con.create_repo(repo=repo)
 
     def list_repos(self):
-        
+
         ###add by beyhhhh the same way I want to use, but change the way to get the list..
         """
         Returns a list of repo (schema) names in the current repo_base.
@@ -128,7 +140,7 @@ class DataHubManager:
         Should never fail or raise any exceptions.
         """
         return self.user_con.list_repos()
-    
+
 
     def rename_repo(self, repo, new_name):
         """
@@ -192,8 +204,8 @@ class DataHubManager:
         # remove related collaborator objects
         Collaborator.objects.filter(
             repo_name=repo, repo_base=self.repo_base).delete()
-        
-        
+
+
         # finally, delete the actual schema
         res = self.user_con.delete_repo(repo=repo, force=force)
         DataHubManager.delete_user_data_folder(self.repo_base, repo)
@@ -439,12 +451,12 @@ class DataHubManager:
             collaborator=collaborator,
             db_privileges=db_privileges
         )
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     def delete_collaborator(self, repo, collaborator):
         """
         Removes a user's or app's privileges on a repo.
@@ -550,7 +562,7 @@ class DataHubManager:
                 '')
 
         return db_collabs
-    
+
     #add by strongman>>
     def create_record_file(self,repo):
         """
@@ -565,11 +577,11 @@ class DataHubManager:
         f= open(file_path, 'wb+')
         print "success create record file"
         f.close()
-        
-        
-        
+
+
+
     #add by strongman<<
-    
+
     def save_file(self, repo, data_file):
         """
         Saves a file to a repo.
@@ -587,17 +599,18 @@ class DataHubManager:
             for chunk in data_file.chunks():
                 destination.write(chunk)
 
-    def delete_file(self, repo, file_name):
+    def delete_file(self, clone_name, file_name):
         """
         Deletes a file from a repo.
 
         Raises PermissionDenied on insufficient privileges.
         """
+        repo = clone_name
         DataHubManager.has_repo_file_privilege(
             self.username, self.repo_base, repo, 'write')
 
         file_path = user_data_path(self.repo_base, repo, file_name)
-        file_path = clone_file_path + "/" + repo + "/" + file_name
+        file_path = get_projec_path(username,clone_name) + "/" + file_name
         os.remove(file_path)
 
     def get_file(self, repo, file_name):
@@ -614,17 +627,12 @@ class DataHubManager:
         return file
 
     #add by beyhhhh>>
-    
-    def get_clone_name(self,username,repo):
-        return repo
-    
 
-    
-    
-    
+
+
     def move_code_to_public(self,username,repo,code_list,data_list):
-        clone_name = self.get_clone_name(username,repo)
-        path = clone_file_path + "/" +clone_name +"/"
+        clone_name = get_clone_name(username,repo)
+        path = get_projec_path(username,clone_name)+ "/"
         src_path = public_code + "/src/"
         json_path = public_code + "/json/"
         for code in code_list:
@@ -639,78 +647,83 @@ class DataHubManager:
         list the data sets that in the repo
         """
         ###even now still need some changes for the data version
-        clone_name = self.get_clone_name(username,repo)
+        clone_name = get_clone_name(username,repo)
         target_path = get_project_config(username,clone_name)
         data_list = []
         if os.path.isfile(target_path):
             f = open(target_path)
             dic = json.load(f)
-            
+
             for a in dic["date_set"]:
                 data_list.append(dic["date_set"][a])
-                
-        print "get data list "    
+
+        print "get data list "
         return data_list
-        
+
     def repo_code_list(self,username,repo):
         """
         list the codes that in the repo
         """
-        clone_name = self.get_clone_name(username,repo)
-        target_path = clone_file_path + "/" +clone_name +"/"
+        clone_name = get_clone_name(username,repo)
+        target_path = get_projec_path(username,clone_name) + "/"
         code_list = []
-        
+
         if os.path.isdir(target_path):
             file_list = os.listdir(target_path)
-            
+
         for a in file_list:
             dic = {}
             if a[a.rfind('.'):] == ".py":
                 dic["name"] = a
                 dic["url"] = "edit"
                 code_list.append(dic)
-                
+
             if a[a.rfind('.'):] == ".ipynb":
                 dic["name"] = a
                 dic["url"] = "notebooks"
                 code_list.append(dic)
                 
+            if a[a.rfind('.'):] == ".param":
+                dic["name"] = a
+                dic["url"] = "edit"
+                code_list.append(dic)
             if not '.' in a:
                 dic["name"] = a
                 dic["url"] = "edit"
                 code_list.append(dic)
         return code_list
-    
-    
-    
+
+
+
     def repo_conf_list(self,username,repo):
-        clone_name = self.get_clone_name(username,repo)
-        target_path = clone_file_path + "/" +clone_name +"/"
+        clone_name = get_clone_name(username,repo)
+        target_path = get_projec_path(username,clone_name) + "/"
         conf_list = []
-        
+
         if os.path.isdir(target_path):
             file_list = os.listdir(target_path)
         for a in file_list:
             if a[a.rfind('.'):] == "":
                 conf_list.append(a)
+                 
         return conf_list
-    
-    
+
+    """
     def push_github(self,username,repo):
-        """
+        '''
         push the code to the github
-        """
+        '''
         print "manager Push"
         ###set the name in gitlab
-        clone_name = self.get_clone_name(username,repo)
-        
-        clone_path = clone_file_path + "/" + clone_name +"/"
+        clone_name = get_clone_name(username,repo)
+
+        clone_path = get_projec_path(username,clone_name) +"/"
         if os.path.isdir(clone_path):
             os.chdir(clone_path)
-            
+
             print "Begine push"
             os.system("git add .")
-                
+
             d = pexpect.spawn("git commit -a -m " + "\" update\"")
             index = d.expect(['nothing to commit','file changed',pexpect.TIMEOUT])
             if index == 1 or index == 0:
@@ -725,7 +738,7 @@ class DataHubManager:
             #if index == 0:
                 #print "you have change nothing"
                 #return "You have change nothing, have nothing to push"
-           
+
             if index == 2:
                 print "there is something wrong"
                 return "there is something wrong"
@@ -733,19 +746,18 @@ class DataHubManager:
             return "there is something wrong"
 
         return
-    
-    
-    
+
+
+
     ####those code was used in the second changes and was useless
 
-    """    
     def updata_user_repo(self,repo,file_list):
         #update the code and the data_set in the test flord to the repo flord
 
-        
+
         path = "/home/ubuntu/sunjiaojiao/datahub"
         test_flord_path = path + "/user_data/"+self.username+"/"
-        
+
         data_path = user_data_path(self.repo_base, repo) + "/"
         print data_path
         print test_flord_path
@@ -758,9 +770,9 @@ class DataHubManager:
             if os.path.isdir(test_flord_path + file_name):
                 shutil.copytree(test_flord_path + file_name,data_path + file_name)
                 print "cp " + file_name+" successfully"
-    
+
     def move_files(self,repo,files,Cleaning = True):
-        
+
         #to get the user files, which the user coding in
         path = "/home/ubuntu/sunjiaojiao/datahub"
         print path
@@ -772,35 +784,35 @@ class DataHubManager:
                 print "KKKK"
         else:
             os.mkdir(base_path)
-            
-        print "move the files" 
+
+        print "move the files"
         for a in files:
             print a
             self.move_the_file(repo,a,base_path)
         print "move_files"
         return "/user_data/"+self.username+"/"
-    
+
     def move_the_file(self,repo,file_name,target_path):
-        #Move the file(file_name) to target 
+        #Move the file(file_name) to target
         path = user_data_path(self.repo_base, repo, file_name)
         print "the path is " + path
         print "  the now path is " + os.getcwd()
-        
+
         if os.path.isdir(path):
             shutil.copytree(path,target_path + file_name)
-               
+
         if os.path.isfile(path):
             shutil.copyfile(path,target_path + file_name)
         else:
             return "The file(or flord) " + a + " can't find" +" " + path + a
-        
+
         return "successfully move the " + file_name + " to " + target_path
-    
-    
-    
-        
-        
-    
+
+
+
+
+
+
     def get_Data_list(self):
         #get the Data_set list in user test flord
         path = "/home/ubuntu/sunjiaojiao/datahub" + "/user_data/"+self.username+"/"
@@ -809,9 +821,9 @@ class DataHubManager:
         for a in os.listdir(path):
             if a[a.rfind('.'):] == '.csv':
                 Data_list.append(a)
-        print "data list is " 
+        print "data list is "
         return Data_list
-    
+
     def get_Code_list(self):
         #get the code list in user test flord
         path = "/home/ubuntu/sunjiaojiao/datahub" + "/user_data/"+self.username+"/"
@@ -824,7 +836,7 @@ class DataHubManager:
                 Code_list.append(a)
             if a[a.rfind('.'):] == '.json':
                 Code_list.append(a)
-        print "code list is " 
+        print "code list is "
         print Code_list
         return Code_list
     """
@@ -1113,7 +1125,7 @@ class DataHubManager:
         """
         return self.user_con.select_table_query(
             repo_base=self.repo_base, repo=repo, table=table)
-    
+
     """
     Static methods that don't require permissions
     """
@@ -1344,7 +1356,7 @@ class DataHubManager:
         print "read"
         data = csv.reader(f, delimiter=delimiter)
         print "OK"
-        
+
         # create a table for the data
         cells = data.next()
         columns = [clean_str(str(i), 'col') for i in range(0, len(cells))]

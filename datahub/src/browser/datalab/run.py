@@ -21,7 +21,7 @@ target = "/home/ubuntu/workspace/Push_exp"
 clone_path = "/home/ubuntu/workspace/clone_file"
 
 def run(username,clone_repo,commit_id,src):
-    
+
     print username,clone_repo,commit_id,src
     print "the exp begin to run"
     List = db_connect.get_poject_exp_list(username,clone_repo)
@@ -33,15 +33,15 @@ def run(username,clone_repo,commit_id,src):
         print "src",src
         OK = db_connect.update_exp(username,clone_repo,List["exp_records"])
         print OK
-        
+
         p = multiprocessing.Process(target = run_the_code,args = (username,commit_id,clone_repo,src,))
         p.start()
-        
+
     else:
         print e
         print "Aborting..."
         return False,{}
-        
+
 
 def run_the_code(username,commit_id,clone_repo,src_code):
     target = "/home/ubuntu/workspace/Push_exp/" + commit_id + "/" +clone_repo
@@ -59,11 +59,14 @@ def run_the_code(username,commit_id,clone_repo,src_code):
                 a["return"] = c
         OK = db_connect.update_exp(username,clone_repo,List["exp_records"])
         print "succefully end"
+        shell = "python  /home/ubuntu/workspace/data_set_public/autograder.py    --commit  %s  --repo  %s  " % (commit_id,clone_repo)
+        os.system(shell)
+
     else:
         return False
-        
-        
-        
+
+
+
 def verifyUser(client, name):
     """
         verify or create user for the record

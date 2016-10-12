@@ -99,14 +99,15 @@ google.load("visualization", "1", {packages:["corechart", "table", "timeline", "
           <li>
             <a href="/"><i class="fa fa-home"></i> <strong>Home</strong></a>
           </li>
-              <li>
+            <!--
+          <li>
             <a href="/browse/public"><i class="fa fa-globe"></i> <strong>Public Data</strong></a>
           </li>
-
-<!--          <li>
-            <a href="/"><i class="fa fa-th-large"></i> <strong>App Center</strong></a>
+           -->
+         <li>
+            <a href="/browse/board"><i class="fa fa-th-large"></i> <strong>Leader Board</strong></a>
           </li>
-
+          <!-- 
           <li>
             <a href="/"><i class="fa fa-bell"></i> <strong>Notifications</strong></a>
           </li>
@@ -118,10 +119,6 @@ google.load("visualization", "1", {packages:["corechart", "table", "timeline", "
             </a>
             
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/apps/console" id="id_launch_terminal" title="SQL Console">Terminal</a></li>
-              <li><a href="/developer/apps" id="id_create_app" title="Create App">Create App</a></li>
-              <li class="divider"></li>
-              <li><a href="/account/settings" id="id_settings" title="Sign Out">Settings</a></li>
               <li><a href="/account/logout" id="id_sign_out" title="Sign Out">Sign Out</a></li>
             </ul>
           </li>     
@@ -246,10 +243,12 @@ $(function() {
   });
 });
 
+/*
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+*/
 
 ga('create', 'UA-54650835-2', 'auto');
 ga('send', 'pageview');
@@ -258,12 +257,14 @@ ga('send', 'pageview');
 <div class="push"></div>
 <div class="container">
   <div class="navbar navbar-default navbar-static-bottom text-center">
+    <!--
   <div class="navbar-footer">
     <a href="/www/" class="btn navbar-btn">About</a> &nbsp; &nbsp;
     <a href="{% static 'docs/html/index.html' %}" class="btn navbar-btn">Documentation</a> &nbsp; &nbsp;
     <a href="https://github.com/datahuborg/datahub" class="btn navbar-btn">GitHub Repo</a> &nbsp; &nbsp;
     <a href="{% url 'django.swagger.base.view' %}" class="btn navbar-btn">API</a>
   </div>
+    -->
   </div>
 </div>
 
