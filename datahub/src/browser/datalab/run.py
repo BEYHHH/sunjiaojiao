@@ -24,22 +24,24 @@ def run(username,clone_repo,commit_id,src):
 
     print username,clone_repo,commit_id,src
     print "the exp begin to run"
-    List = db_connect.get_poject_exp_list(username,clone_repo)
+    try:
+        List = db_connect.get_poject_exp_list(username,clone_repo)
+    except:
+        print "there is something wrong with the connect mangodb"
     for a in List["exp_records"]:
         if a["commit"]["id"] == commit_id:
             exp = a
             a["has_run"] = True
-    if True:
+    try:
         print "src",src
         OK = db_connect.update_exp(username,clone_repo,List["exp_records"])
         print OK
-
         p = multiprocessing.Process(target = run_the_code,args = (username,commit_id,clone_repo,src,))
         p.start()
-
-    else:
+        return True
+    except:
         print e
-        print "Aborting..."
+        print "Aborting...,there is something wrong with catch the correct code. the multiprocess can not run correctly"
         return False,{}
 
 
@@ -61,6 +63,8 @@ def run_the_code(username,commit_id,clone_repo,src_code):
         print "succefully end"
         shell = "python  /home/ubuntu/workspace/data_set_public/autograder.py    --commit  %s  --repo  %s  " % (commit_id,clone_repo)
         os.system(shell)
+        return True
+        raise Exception("can not run the exp code successfully")
 
     else:
         return False
@@ -133,7 +137,6 @@ def record(params, git_info = {}):
         old_records = user.find_one({'exp_name': repo_name})['exp_records']
         user.update({'exp_name': repo_name}, {'$set': {'exp_records': old_records + [params]}})
 
-        print params
         #user.insert(params)
         client.close()
         return True, params
@@ -181,7 +184,6 @@ def read(file_name, git_info):
     print "current dir: "+os.getcwd()
     fp = open(file_name)
     params = json.load(fp)
-    print params, git_info
     flag, p = record(params, git_info)
     if flag:
         run(p)

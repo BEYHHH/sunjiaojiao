@@ -599,7 +599,7 @@ class DataHubManager:
             for chunk in data_file.chunks():
                 destination.write(chunk)
 
-    def delete_file(self, clone_name, file_name):
+    def delete_file(self,username, clone_name, file_name):
         """
         Deletes a file from a repo.
 
@@ -608,10 +608,14 @@ class DataHubManager:
         repo = clone_name
         DataHubManager.has_repo_file_privilege(
             self.username, self.repo_base, repo, 'write')
-
+        
+        
         file_path = user_data_path(self.repo_base, repo, file_name)
+        
         file_path = get_projec_path(username,clone_name) + "/" + file_name
-        os.remove(file_path)
+        print file_path
+        if os.path.isfile(file_path):
+            os.remove(file_path)
 
     def get_file(self, repo, file_name):
         """

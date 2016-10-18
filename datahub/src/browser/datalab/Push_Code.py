@@ -28,8 +28,7 @@ def verifyUser(client, name):
     return users[name]
 
 def __Push__(username,repo,data,branch,message = "push the code to run"):
-    print branch
-    print data
+    
     repo_url = data["http_url_to_repo"]
     repo_name = data["name"]
     print "current dir: "+ os.getcwd()

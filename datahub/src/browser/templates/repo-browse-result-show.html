@@ -1,0 +1,190 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+  <h4 class="inline-block">
+    <a class="link" href=/browse/{{login}}>{{login}}</a>
+    /
+  </h4>
+  <hr />
+  <div id="error">
+    {% for error in errors %}
+      <span class="error">{% autoescape off %}{{error}}{% endautoescape %}</span><br />
+    {% endfor %}
+  </div>
+    
+     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 390px; height:450px; float:left;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            backgroundColor: '#2c343c',
+            
+            title: {
+                text: 'Leader Board Ranking',
+                left: 'center',
+                top: '20',
+                textStyle:{
+                    color: '#ccc'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            visualMap: {
+                show: false,
+                min: 80,
+                max: 600,
+                inRange: {
+                    colorLightness: [0, 1]
+                }
+            },
+            
+            series: [{
+                name: 'Accuracy',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '50%'],
+                data: [
+                    {name:"90%+", value:{{num.nine}}}, 
+                    {name:"80%~90%", value:{{num.eight}}}, 
+                    {name:"70%~80%", value:{{num.seven}}}, 
+                    {name:"60%~70%", value:{{num.six}}}, 
+                    {name:"50%~60%", value:{{num.five}}}, 
+                    {name:"50%-", value:{{num.last}}}
+                ].sort(function (a, b) { return a.value - b.value}),
+                
+                roseType: 'angle',
+                label: {
+                    normal: {
+                        textStyle: {
+                            color: 'rgba(255, 255, 255, 3)'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 3)'
+                        },
+                        smooth: 0.2,
+                        length: 10,
+                        length2: 20
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#c23531',
+                        shadowBlur: 200,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }     
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+    
+    
+    <div id="second" style="width: 750px ;height:450px; float:right"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart_second = echarts.init(document.getElementById('second'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+            text: 'Submission Accuracy'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        xAxis: {
+            data: {{ range|safe }}
+        },
+        yAxis: {
+            splitLine: {
+                show: false
+            }
+        },
+        toolbox: {
+            left: 'center',
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        dataZoom: [{
+            startValue: '2014-06-01'
+        }, {
+            type: 'inside'
+        }],
+        visualMap: {
+            top: 10,
+            right: 10,
+            pieces: [{
+                gt: 0,
+                lte: 50,
+                color: '#096'
+            }, {
+                gt: 50,
+                lte: 60,
+                color: '#ffde33'
+            }, {
+                gt: 60,
+                lte: 70,
+                color: '#ff9933'
+            }, {
+                gt: 70,
+                lte: 80,
+                color: '#cc0033'
+            }, {
+                gt: 80,
+                lte: 90,
+                color: '#660099'
+            }, {
+                gt: 100,
+                color: '#7e0023'
+            }],
+            outOfRange: {
+                color: '#999'
+            }
+        },
+        series: {
+            name: 'Accuracy',
+            type: 'line',
+            data: {{ rank|safe }},
+            markLine: {
+                silent: true,
+                data: [{
+                    yAxis: 50
+                }, {
+                    yAxis: 60
+                }, {
+                    yAxis: 70
+                }, {
+                    yAxis: 80
+                }, {
+                    yAxis: 90
+                }]
+            }
+        }
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart_second.setOption(option);
+    </script>
+    
+    
+    
+    
+</div>
+
+{% endblock %}

@@ -58,8 +58,10 @@ urlpatterns = patterns(
         name='browser-create_annotation'),
     url(r'^browse/board/?$', 'browser.views.show_board',
         name='browser-show_board'),
-
-
+    url(r'^browse/result_show/?$', 'browser.views.result_show',
+        name='browser-result_show'),
+    url(r'^browse/log_show/?$', 'browser.views.log_show',
+        name='browser-log_show'),
     # Browse
     url(r'^browse/(\w+)/(\w+)/table/(\w+)/?$', 'browser.views.table',
         name='browser-table'),
