@@ -59,6 +59,8 @@ def __Push__(username,repo,data,branch,message = "push the code to run"):
     for a in List:
         if a[a.rfind('.'):] == ".py":
             Code_list.append(a)
+        if a[a.rfind('.'):] == ".java":
+            Code_list.append(a)
             
             
     try:

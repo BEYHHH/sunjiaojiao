@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+  <h4 class="inline-block">
+    <a class="link" href=/browse/{{login}}>{{login}}</a>
+    /
+  </h4>
+  <hr />
+  <div id="error">
+    {% for error in errors %}
+      <span class="error">{% autoescape off %}{{error}}{% endautoescape %}</span><br />
+    {% endfor %}
+  </div>
+    <div class = "table-responsive">
+        
+        <table class="table">
+            <tbody>
+                
+                <tr>
+                    
+                    <td>
+                        
+                        <select id="user_name" name="uaer_name" onchange="select_file_name(this.value)">
+                           {%for a in datas%}
+                                <option value= "{{a.id}}">{{a.short_commit_id}}</option>
+                           {%endfor%}
+                        </select>
+                        
+                    </td>
+                    
+                    <td>
+                        
+                        <select id="project_name" name="project_name" onchange="change_tabel(this.value,'{{key}}')">
+                           {%for a in datas%}
+                                <option value= "{{a.id}}">{{a.short_commit_id}}</option>
+                           {%endfor%}
+                        </select>
+                        
+                    </td>
+                    
+                    
+                <tr>
+                
+            </tbody>
+        </table>
+    </div>
+<script type="text/javascript">
+    
+    
+function select_src(src_name,commit_id) {
+document.getElementById(commit_id).onclick = function(){window.location.href='/browse/{{repo_base}}/{{repo}}/' + commit_id + '/' + src_name + '/run'}
+}
+    
+function select_file_name(data_id) {
+    var data_show = data_name + '_show'
+    var public = 'Make_data_set_public_' + data_name
+    document.getElementById('project_name').onclick = function(){window.open('/browse/{{login}}/{{repo}}/' + data_id +'/table_show')}
+    document.getElementById(public).onclick = function(){window.location.href='/browse/{{repo_base}}/{{repo}}/'+ data_id +'/Make_data_set_public'}
+}
+
+    
+    function creat_select_op
+    
+function ale(result)
+{
+    alert(result);
+}
+</script>   
+     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1000px; height:450px; float:left;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+    
+</div>
+
+{% endblock %}

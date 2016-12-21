@@ -56,12 +56,19 @@ urlpatterns = patterns(
         name='browser-card_create'),
     url(r'^create/annotation/?$', 'browser.views.create_annotation',
         name='browser-create_annotation'),
+    
+    ####add by beyhhhh>>>
     url(r'^browse/board/?$', 'browser.views.show_board',
         name='browser-show_board'),
     url(r'^browse/result_show/?$', 'browser.views.result_show',
         name='browser-result_show'),
     url(r'^browse/log_show/?$', 'browser.views.log_show',
         name='browser-log_show'),
+    url(r'^browse/accuracy_show/?$', 'browser.views.accuracy_show',
+        name='browser-accuracy_show'),
+    #url(r'^browse/updata_record_result/?$', 'browser.views.updata_record_result',
+    #    name='browser-log_show'),
+    ####add by beyhhhh<<<
     # Browse
     url(r'^browse/(\w+)/(\w+)/table/(\w+)/?$', 'browser.views.table',
         name='browser-table'),

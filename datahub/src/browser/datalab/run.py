@@ -17,6 +17,7 @@ import multiprocessing
 import time
 import pexpect
 
+
 target = "/home/ubuntu/workspace/Push_exp"
 clone_path = "/home/ubuntu/workspace/clone_file"
 
@@ -48,10 +49,21 @@ def run(username,clone_repo,commit_id,src):
 def run_the_code(username,commit_id,clone_repo,src_code):
     target = "/home/ubuntu/workspace/Push_exp/" + commit_id + "/" +clone_repo
     print target
+    
+    
+    
+    
     if os.path.isdir(target):
         print "enter successfully"
         os.chdir(target)
-        c = pexpect.run("python  " + src_code)
+        if  src_code[src_code.rfind('.'):] == ".java":
+            cmd = "javac %s"%(src_code)
+            os.system(cmd)
+            
+            cmd = "java %s"%(src_code[:src_code.rfind('.')])
+            c = pexpect.run(cmd)
+        else:
+            c = pexpect.run("python  " + src_code)
         print "result :",c
         List = db_connect.get_poject_exp_list(username,clone_repo)
         for a in List["exp_records"]:

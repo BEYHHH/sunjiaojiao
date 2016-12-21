@@ -17,6 +17,8 @@ from core.db.connection import DataHubConnection
 from core.db.rlsmanager import RowLevelSecurityManager
 from core.db.errors import PermissionDenied
 from inventory.models import App, Card, Collaborator, DataHubLegacyUser
+import autograder
+
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
@@ -26,17 +28,22 @@ public_data = "/home/ubuntu/workspace/data_set_public"
 
 
 
-def get_projec_path(username,clone_name):
+def get_project_path(username,clone_name):
     return u"/home/%s/%s" % (username,clone_name)
+
+def get_code_path(username,clone_name,code_name):
+    return  u"/home/%s/%s/%s" % (username,clone_name,code_name)
+
+
 
 def get_user_path(username):
     return u"/home/%s" % (username)
 
 def get_project_config(username,clone_name):
-    return (get_projec_path(username,clone_name) + u"/config")
+    return (get_project_path(username,clone_name) + u"/config")
 
 def get_project_parma(username,clone_name):
-    return (get_projec_path(username,clone_name) + u"/param")
+    return (get_project_path(username,clone_name) + u"/param")
 
 def get_clone_name(username,repo):
     return repo
@@ -588,16 +595,29 @@ class DataHubManager:
 
         Raises PermissionDenied on insufficient privileges.
         """
+        user_name = self.username
         DataHubManager.has_repo_file_privilege(
             self.username, self.repo_base, repo, 'write')
 
         DataHubManager.create_user_data_folder(self.repo_base, repo)
 
         file_name = clean_file_name(data_file.name)
-        file_path = user_data_path(self.repo_base, repo, file_name)
-        with open(file_path, 'wb+') as destination:
-            for chunk in data_file.chunks():
-                destination.write(chunk)
+        if file_name[file_name.rfind('.'):] == ".csv":
+            file_path = "/home/" + user_name  + "/result.csv"
+            print "file_path:",file_path
+            print "user_name:",user_name
+            with open(file_path, 'wb+') as destination:
+                for chunk in data_file.chunks():
+                    destination.write(chunk)
+            print "save file ok"
+            autograder.grade_result(file_path,user_name)
+            print "OK"
+            return
+        else:
+            file_path = user_data_path(self.repo_base, repo, file_name)
+            with open(file_path, 'wb+') as destination:
+                for chunk in data_file.chunks():
+                    destination.write(chunk)
 
     def delete_file(self,username, clone_name, file_name):
         """
@@ -612,7 +632,7 @@ class DataHubManager:
         
         file_path = user_data_path(self.repo_base, repo, file_name)
         
-        file_path = get_projec_path(username,clone_name) + "/" + file_name
+        file_path = get_project_path(username,clone_name) + "/" + file_name
         print file_path
         if os.path.isfile(file_path):
             os.remove(file_path)
@@ -627,7 +647,9 @@ class DataHubManager:
             self.username, self.repo_base, repo, 'read')
 
         file_path = user_data_path(self.repo_base, repo, file_name)
+        print "file_path is:",file_path
         file = open(file_path).read()
+        print "read Ok"
         return file
 
     #add by beyhhhh>>
@@ -636,7 +658,7 @@ class DataHubManager:
 
     def move_code_to_public(self,username,repo,code_list,data_list):
         clone_name = get_clone_name(username,repo)
-        path = get_projec_path(username,clone_name)+ "/"
+        path = get_project_path(username,clone_name)+ "/"
         src_path = public_code + "/src/"
         json_path = public_code + "/json/"
         for code in code_list:
@@ -669,7 +691,7 @@ class DataHubManager:
         list the codes that in the repo
         """
         clone_name = get_clone_name(username,repo)
-        target_path = get_projec_path(username,clone_name) + "/"
+        target_path = get_project_path(username,clone_name) + "/"
         code_list = []
 
         if os.path.isdir(target_path):
@@ -678,6 +700,11 @@ class DataHubManager:
         for a in file_list:
             dic = {}
             if a[a.rfind('.'):] == ".py":
+                dic["name"] = a
+                dic["url"] = "edit"
+                code_list.append(dic)
+                
+            if a[a.rfind('.'):] == ".java":
                 dic["name"] = a
                 dic["url"] = "edit"
                 code_list.append(dic)
@@ -701,7 +728,7 @@ class DataHubManager:
 
     def repo_conf_list(self,username,repo):
         clone_name = get_clone_name(username,repo)
-        target_path = get_projec_path(username,clone_name) + "/"
+        target_path = get_project_path(username,clone_name) + "/"
         conf_list = []
 
         if os.path.isdir(target_path):
@@ -721,7 +748,7 @@ class DataHubManager:
         ###set the name in gitlab
         clone_name = get_clone_name(username,repo)
 
-        clone_path = get_projec_path(username,clone_name) +"/"
+        clone_path = get_project_path(username,clone_name) +"/"
         if os.path.isdir(clone_path):
             os.chdir(clone_path)
 
@@ -1479,12 +1506,19 @@ def user_data_path(repo_base, repo='', file_name='', file_format=None):
     for p in parts:
         if (not isinstance(p, six.string_types) or p.startswith('.')):
             raise ValueError('Invalid path component.')
-    path = os.path.abspath(os.path.join(os.sep, 'user_data', *parts))
-
+            
+    clone_name = get_clone_name(repo_base,repo)         
+    
+    path = get_code_path(repo_base,clone_name,file_name)
+    #path = os.path.abspath(os.path.join(os.sep, 'user_data', *parts))
+    
+    
     if file_format:
         if re.match('[^0-9a-zA-Z_-]', file_format):
             raise ValueError('Invalid file format specified.')
-        path = '%s.%s' % (path, file_format)
+            
+        path = get_code_path(repo_base,clone_name,file_name)
+        #path = '%s.%s' % (path, file_format)
 
     return path
 

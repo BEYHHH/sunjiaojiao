@@ -13,8 +13,11 @@
       Data &nbsp;
       <button class="btn btn-default btn-sm modal-upload-dialog" type="button"  onclick="window.location.href='/browse/{{repo_base}}/{{repo}}/add_datas'" title="Add new data"><span class="glyphicon glyphicon-plus"></span></button>
         
-      <!--  <button class="btn btn-primary btn-xsm modal-upload-dialog" type="button" target-modal="#file-upload-modal" title="Upload a New File" style = "float:right;margin-right:0;">Upload Data</button>-->
-    </span>
+        
+      <!--<button class="btn btn-primary btn-xsm modal-upload-dialog" type="button" target-modal="#file-upload-modal" title="Upload a New File" style = "float:right;margin-right:0;">Upload Result Data&nbsp;&nbsp;</button>
+-->
+        <button class="btn btn-default btn-primary btn-xsm back modal-upload-dialog" type="button" target-modal="#file-upload-modal" title="Upload a New File" style = "float:right;margin-right:0;">&nbsp;Upload data&nbsp;</button>
+      </span>
   </div>
  
   {% if data_set%}
@@ -62,6 +65,9 @@
       Code &nbsp;
       <button class="btn btn-default btn-sm modal-upload-dialog" type="button"  onclick="window.location.href='/browse/{{repo_base}}/{{repo}}/add_codes'" title="Add new code"><span class="glyphicon glyphicon-plus"></span></button>
         
+        
+     <button class="btn btn-default btn-primary btn-xsm back modal-upload-dialog" type="button" target-modal="#file-upload-modal" title="Upload a New File" style = "float:right;margin-right:0;">&nbsp;Upload code&nbsp;</button>
+      &nbsp;&nbsp;
       <button class="btn btn-primary btn-xsm back" type="button"  onclick="window.location.href='/browse/{{repo_base}}/{{repo}}/branch_list'" title="Push Codes" style = "float:right;margin-right:0;">Code Version</button>
     </span>
   </div>
@@ -88,6 +94,11 @@
                   title="Delete">
                 <span class="delete-icon"></span>
               </span>
+                
+              <a href="/download/{{repo_base}}/{{repo}}/file/{{code.name}}" title="Download">
+                <span class="download-icon"></span>
+              </a>&nbsp;&nbsp;
+                
             {%if right.code_public%}
              <button type="button"
                   id = "Make_data_set_public_{{key}}"
@@ -203,39 +214,8 @@ function ale(result)
 {
     alert(result);
 }
-</script>  
-
-
-<div class="modal" id="file-upload-modal" 
-    tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-        <h4 class="modal-title" id="file-upload-modal-title">Upload File</h4>
-      </div>
-      <div class="modal-body" id="file-upload-modal-body">
-        <form role="form" method="POST" action="/upload/{{repo_base}}/{{repo}}/data" enctype='multipart/form-data' id="file-upload-modal-form">
-          <div class="form-group">
-            {% csrf_token %}
-            <input type="file" class="form-control" name="data_file" placeholder="Data File">
-          </div>
-        </form>   
-      </div>
-      <div class="modal-footer">
-        <button type="button"
-            class="btn btn-primary" id="file-upload-modal-operation">Upload</button>
-        <button type="button"
-            class="btn btn-default" data-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script type="text/javascript">
+    
+    
 $(function() {
   $('.modal-import-dialog').on('click', function(e){
     var modal_id = $(this).attr('target-modal')
@@ -253,16 +233,6 @@ $(function() {
         $("#wait-dialog").modal()
       });
   });
-    
-    
- $(function() {
-  $('.modal-reult-dialog').on('click', function(e){
-    var modal_id = $(this).attr('target-modal')
-    var target_file = $(this).attr('target-file')
-
-    $(modal_id).off('click');
-    
-  });   
 
   $('.modal-upload-dialog').on('click', function(e){
     var modal_id = $(this).attr('target-modal')
@@ -277,10 +247,37 @@ $(function() {
   });
 
 });
-</script>
+</script>  
 
 
-
+<div class="modal" id="file-upload-modal" 
+    tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title" id="file-upload-modal-title">Upload File</h4>
+      </div>
+      <div class="modal-body" id="file-upload-modal-body">
+        <form role="form" method="POST" action="/upload/{{repo_base}}/{{repo}}/file" enctype='multipart/form-data' id="file-upload-modal-form">
+          <div class="form-group">
+            {% csrf_token %}
+            <input type="file" class="form-control" name="data_file" placeholder="Data File">
+          </div>
+        </form>   
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+            class="btn btn-primary" id="file-upload-modal-operation">Upload</button>
+        <button type="button"
+            class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 

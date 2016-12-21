@@ -43,6 +43,7 @@ from utils import post_or_get
 from django.views.decorators.csrf import csrf_protect
 from watchdog import update_every
 import watchdog
+
 from datalab import *
 '''
 Datahub Web Handler
@@ -57,7 +58,8 @@ account_processor = AccountService.Processor(handler)
 
 
 
-gitlab_url = "10.2.0.112"
+#gitlab_url = "10.2.0.112"
+gitlab_url = "172.20.2.17"
 hearder = "--header \"PRIVATE-TOKEN:L4414iPPE3zknxmk7xQ8\" "
 user_id_pass = " -u \"root:git123456\" "
 api_url = " \"http://" + gitlab_url + "/api/v3/"
@@ -194,12 +196,12 @@ def get_branch(username,clone_name):
 
 def get_commit(username,clone_name):
     branch = get_branch(username,clone_name)
-    
+
     commit_list = get_commit_list(username,clone_name)
     for commit in commit_list:
         if commit["id"] == branch["commit"]["id"]:
             return commit
-        
+
     ID = get_project_id(username,clone_name)
     Post_shell = commal_url + "projects/" + str(ID) + "/repository/commits/" + branch["commit"]["id"]+ "\""
     a = pexpect.run(Post_shell)
@@ -249,14 +251,14 @@ def res_start_watchdog_system(username,clone_name):
 
 def action_record(username,clone_name,action):
     #return
-    
+
     TIME = time.strftime("%Y_%m_%d_%H_%M_%S",time.localtime(time.time()))
     data = [(username,clone_name,TIME,action)]
     csvfile  = open("%s/record.csv"% (clone_file_path),"a+")
     writer = csv.writer(csvfile)
     writer.writerows(data)
     csvfile.close()
-    
+
 ####<<<add by beyhhhh
 
 def home(request):
@@ -384,11 +386,11 @@ def move_code_to_repo(request, repo_base, repo):
     """
     username = request.user.get_username()
     clone_name = get_clone_name(username,repo)
-    
+
     action_record(username,clone_name,"move_the_public_codes_to_project")
-    
+
     code_list =  request.POST.getlist('check_box_list')
-    ran = random.randint(0, 1) 
+    ran = random.randint(0, 1)
     for c in range(0,len(code_list)):
         if code_list[c] == 'e621bfc2f2292c4e3f903517111361ffed868cd2_Titanic_Tutorial.ipynb':
             if ran == 0:
@@ -397,8 +399,8 @@ def move_code_to_repo(request, repo_base, repo):
                 TM = time.strftime("%Y_%m_%d_%H_%M_%S",time.localtime(time.time()))
                 f.write('username:%s  project:%s\n move_time:%s  \nf7c59407eafdf65aa57520da0ecf4cda9881e194_Titanic_Tutorial.ipynb\n' % (username,clone_name,TM))
                 f.close()
-    
-    
+
+
     path = public_code + "/"
     target = get_projec_path(username,clone_name) + "/"
     with DataHubManager(user=username, repo_base=repo_base) as manager:
@@ -437,9 +439,9 @@ def move_data_to_repo(request, repo_base, repo):
     clone_name = get_clone_name(username,repo)
     path =public_data + "/json"
     target = get_project_config(username,clone_name)
-    
+
     action_record(username,clone_name,"move_the_public_datas_to_project")
-    
+
     if os.path.isfile(target):
         f = open(target)
         repo_dic = json.load(f)
@@ -516,7 +518,7 @@ def add_datas_to_repo(request, repo_base, repo):
     public_repos = DataHubManager.list_public_repos()
     clone_name = get_clone_name(username,repo)
     action_record(username,clone_name,"enter_the_public_datas_label")
-    
+
     with DataHubManager(user=username, repo_base=repo_base) as manager:
         repos = manager.list_repos()
 
@@ -567,9 +569,9 @@ def add_codes_to_repo(request, repo_base, repo):
     if repo_base.lower() == 'user':
         repo_base = username
     clone_name = get_clone_name(username,repo)
-    
+
     action_record(username,clone_name,"enter_the_public_codes_label")
-    
+
     with DataHubManager(user=username, repo_base=repo_base) as manager:
         Data_list = manager.repo_data_list(username,clone_name)
         ### to get the cvs that the repo has, so we can select the codes that have someting to do with the cvs
@@ -723,23 +725,23 @@ def repo(request, repo_base, repo):
     forwards to repo_tables method
     list the Code and Date and Commit and Record and
     '''
-    
-    
+
+
     username = request.user.get_username()
-    
+
     right = {}
-    if username == 'zhangyang_2014311425':
+    if username == 'zhangyang_2014311425' or 'ztj':
         right['code_public'] = True
         right['data_public'] = True
     clone_name =  get_clone_name(username,repo)
     if repo_base.lower() == 'user':
         repo_base = username
-        
-    
+
+
     os.system("sudo chown -R %s:%s  %s" %  (username,username,get_user_path(username)))
-    
+
     action_record(username,clone_name,"enter_the_project")
-    
+
     with DataHubManager(user=username, repo_base=repo_base) as manager:
         Data_list = manager.repo_data_list(username,clone_name)
         Code_list = manager.repo_code_list(username,clone_name)
@@ -747,7 +749,7 @@ def repo(request, repo_base, repo):
 
     clone_name = get_clone_name(username,repo)
 
-    
+
     data_set = {}
     for a in Data_list:
         if data_set.has_key(a["name"]):
@@ -771,7 +773,7 @@ def repo(request, repo_base, repo):
                 commit['return_html_show'] = manage_code_to_html(commit['return'])
     except:
         commit_list = {}
-        
+
     cont = {
         "login": username,
         "repo_base":repo_base,
@@ -821,7 +823,7 @@ def repo_tables(request, repo_base, repo):
         'views': views,
         'rls-table': rls_table
     }
-    
+
     res.update(csrf(request))
     return render_to_response("repo-browse-tables.html", res)
 
@@ -948,9 +950,9 @@ def upload_github(request, repo_base, repo):
     '''
     username = request.user.get_username()
     clone_name = get_clone_name(username,repo)
-    
+
     action_record(username,clone_name,"Push_project_upload_github")
-    
+
     if repo_base.lower() == 'user':
         repo_base = username
 
@@ -958,7 +960,7 @@ def upload_github(request, repo_base, repo):
     branch = get_branch(username,clone_name)
     project = get_project(username,clone_name)
     data = project
-    
+
     Push_Code.__Push__(username,clone_name,data,branch)
     return HttpResponseRedirect('/browse/'+ username + '/' + repo)
 """
@@ -1072,7 +1074,7 @@ def creat_github_repo(username,clone_name):
 def run_the_exp(request,repo_base,repo,commit_id,src):
     username = request.user.get_username()
     clone_name =  get_clone_name(username,repo)
-    
+
     action_record(username,clone_name,"run_the_exp_get_the_result")
     try:
         run.run(username,clone_name,commit_id,src)
@@ -1140,6 +1142,10 @@ def get_branch_code(username,repo,commit_id,P_id):
                 f = open( target_path + '/'+ a)
                 code_list.append({"name":a ,"code": f.read()})
                 f.close()
+            if a[a.rfind('.'):] == ".java":
+                f = open( target_path + '/'+ a)
+                code_list.append({"name":a ,"code": f.read()})
+                f.close()
 
             if a[a.rfind('.'):] == ".ipynb":
                 f = open(target_path + '/' + a)
@@ -1164,13 +1170,13 @@ def commit_code_watch(request, repo_base,repo,branch_name):
     to list the codes in a certain commit(branch) project
 
     '''
-    
+
     username = request.user.get_username()
     clone_name = get_clone_name(username,repo)
     target_path = get_projec_path(username,clone_name)
 
-    
-    
+
+
     if os.path.isdir(target_path):
         os.chdir(target_path)
         ID = get_project_id(username,clone_name)
@@ -1186,7 +1192,7 @@ def commit_code_watch(request, repo_base,repo,branch_name):
                 N = commit["name"]
             if commit["name"] == branch_name:
                 branch = commit
-                
+
         action_record(username,clone_name,"watch_the_branch"+branch["commit"]["id"])
         code_list = get_branch_code(username,clone_name,branch_name,N)
 
@@ -1215,22 +1221,22 @@ def code_branch_list(request, repo_base,repo):
     """
     shut_down_watchdog_system(user_name,clone_name)
     """
-    
+
     action_record(username,clone_name,"watch_the_branch_list")
-    
+
     if os.path.isdir(target_path):
         os.chdir(target_path)
         ID = get_project_id(username,clone_name)
 
         Post_shell = commal_url + "projects/" + str(ID) + "/repository/branches\""
 
-        
-        
-        
+
+
+
         try:
             a = pexpect.run(Post_shell)
             branch_list = json.loads(a)
-    
+
             c = pexpect.run("git status")
             N = None
             for commit in branch_list:
@@ -1241,8 +1247,8 @@ def code_branch_list(request, repo_base,repo):
                     commit["position"] = 1
         except:
             print "can't get the branch, Maybe no push in this project"
-            
-            
+
+
         res = {
             'login': username,
             'repo_base': repo_base,
@@ -1314,9 +1320,9 @@ def repo_create(request, repo_base):
         clone_name = get_clone_name(username,repo)
         creat_github_repo(username,clone_name)
         clone_path = git_url+ clone_name +".git"
-        
+
         action_record(username,clone_name,"creat_the_project")
-        
+
         path = get_user_path(username)
 
         if os.path.isdir(path):
@@ -1379,9 +1385,9 @@ def repo_delete(request, repo_base, repo):
 
     ### set the clone flord name
     clone_name = get_clone_name(username,repo)
-    
+
     action_record(username,clone_name,"delect_the_project")
-    
+
     path = get_user_path(username) + "/"
     if os.path.isdir(path + clone_name):
         shutil.rmtree(path + clone_name)
@@ -1614,9 +1620,9 @@ def table_show(request, repo_base, repo, file_name):
 
 def show_board(request):
     username = request.user.get_username()
-    
+
     action_record(username,"no_project","Leader_Board")
-    
+
     file_path = public_data + "/titanic_leader_board.csv"
     with open(file_path,'rb') as f:
         reader = list(csv.reader(f))
@@ -1632,7 +1638,7 @@ def show_board(request):
 
 def log_show(request):
     username = request.user.get_username()
-    
+
     file_path = public_data + "/titanic_leader_board.csv"
     with open("%s/record.csv"% (clone_file_path),'rb') as f:
         reader = list(csv.reader(f))
@@ -1646,16 +1652,105 @@ def log_show(request):
 
     return render_to_response("repo-browse-data-shows.html", res)
 
+"""
+def updata_record_result(request):
+    username = request.user.get_username()
+    file_path = public_data + "/titanic_leader_board.csv"
+    with open(file_path,'rb') as f:
+        reader = list(csv.reader(f))
+        f.close()
+
+    reader.pop(0)
+    for a in reader:
+        username = a[1]
+        with DataHubManager(user=a[1], repo_base=a[1]) as manager:
+            repos = manager.list_repos()
+            for repo_name in repos:
+                print 'repo_name: ',repo_name,'  user_name: ', username
+                if db_connect.update_exp_feature(a[1],get_clone_name(username,repo_name),a[2],"accuracy",a[3]):
+                    print "begin write"
+                    if not os.path.isdir("/home/ubuntu/result"):
+                        os.mkdir("/home/ubuntu/result")
+                    if not os.path.isdir("/home/ubuntu/result/%s"%(username)):
+                        os.mkdir("/home/ubuntu/result/%s"%(username))
 
 
-import types 
+                    data = db_connect.get_poject_exp_list(username,get_clone_name(username,repo_name))
+
+                    data_list = []
+                    for a in data["exp_records"]:
+
+                        if a.has_key("accuracy"):
+
+                            print a
+
+                            data_dic = {}
+                            data_dic["time"] = a["time"]
+                            data_dic["commit"] = a["commit"]["id"]
+                            data_dic["accuracy"] = a["accuracy"]
+                            data_dic["project"] = get_clone_name(username,repo_name)
+                            data_dic["user_name"] = username
+                            data_list.append(data_dic)
+                    if data_list == []:
+                        continue
+                    print data_list
+                    FIELDS = ['user_name','time', 'commit', 'accuracy', 'project']
+                    csv_file = open("/home/ubuntu/result/%s/%s.csv"%(username,repo_name),'wb')
+                    writer = csv.DictWriter(csv_file, fieldnames = FIELDS)
+                    writer.writerow(FIELDS)
+                    writer.writerows(data_list)
+                    csv_file.close()
+
+    return
+
+def creat_csv(username,file_name,data):
+    return
+"""
+
+def accuracy_show(request):
+    res={}
+
+    List_user = os.listdir("/home/ubuntu/result")
+    plot_record = {}
+    file_name_record = {}
+    for user in List_user:
+        if os.path.isdir("/home/ubuntu/result/%s"%(user)):
+            record = os.listdir("/home/ubuntu/result/%s"%(user))
+            file_names = []
+            for file_name in record:
+                file_path = "/home/ubuntu/result/%s/%s"%(user,file_name)
+                with open(file_path,'rb') as f:
+                    reader = list(csv.reader(f))
+                    f.close()
+
+                if len(reader) <= 10:
+                    continue
+                file_names.append(file_name)
+                data = []
+                time = []
+                SUM = 0
+                plot_record[file_name] = {}
+                for acu in reader:
+                    data.append(float(acu[3][0:-1]))
+                    time.append(acu[1])
+                plot_record[file_name]['data'] = data
+                plot_record[file_name]['time'] = time
+            file_name_record[user] = file_names
+
+    res = {
+        'plot_record':json.dumps(plot_record),
+        'file_name_record':json.dumps(file_name_record)
+    }
+    return render_to_response("repo-browse-accuracy-show.html", res)
+
+import types
 def result_show(request):
     username = request.user.get_username()
     file_path = public_data + "/titanic_leader_board.csv"
     with open(file_path,'rb') as f:
         reader = list(csv.reader(f))
         f.close()
-        
+
     num = {}
     num["nine"] = 0
     num["eight"] = 0
@@ -1663,10 +1758,10 @@ def result_show(request):
     num["six"] = 0
     num["five"] = 0
     num["last"] = 0
-    
+
     rank = []
     Ran=[]
-    
+
     for a in range(1,len(reader)):
         reader[a].append(float(reader[a][3][0:-1]))
         rank.append(reader[a][4])
@@ -1687,11 +1782,11 @@ def result_show(request):
             num["five"] = num["five"] + 1
             continue
         num["last"] = num["last"] + 1
-        
+
     print num
-    
-     
-    
+
+
+
     res = {
         'login': username,
         'data_name':'Leader Board',
@@ -1764,7 +1859,7 @@ def file_upload(request, repo_base, repo):
         manager.save_file(repo, data_file)
 
     return HttpResponseRedirect(
-        reverse('browser-repo_files', args=(repo_base, repo)))
+        reverse('browser-repo', args=(repo_base, repo)))
 
 
 
@@ -1894,9 +1989,9 @@ def file_delete(request, repo_base, repo, file_name):
 
 def file_download(request, repo_base, repo, file_name):
     username = request.user.get_username()
-
+    clone_name = get_clone_name(username,repo)
     with DataHubManager(user=username, repo_base=repo_base) as manager:
-        file_to_download = manager.get_file(repo, file_name)
+        file_to_download = manager.get_file(clone_name, file_name)
 
     response = HttpResponse(file_to_download,
                             content_type='application/force-download')
